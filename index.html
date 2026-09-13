@@ -3,2776 +3,2017 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>صدای تاریخ | تاریخ، پادکست و دانش تاریخی</title>
+<meta name="theme-color" content="#0B0D12">
+<title>صدای تاریخ | تاریخ ایران و جهان</title>
 
 <style>
 :root{
-    --bg:#0B0D12;
-    --card:#151820;
-    --gold:#C99A3E;
-    --gold2:#E2B85B;
-    --cream:#E8DCC4;
-    --white:#F5F3EE;
-    --gray:#9A9EA8;
-    --border:#292E38;
-    --teal:#2A9D8F;
-    --danger:#d9534f;
+  --bg:#0B0D12;
+  --card:#151820;
+  --card2:#1b1f29;
+  --gold:#C99A3E;
+  --gold2:#E2B85B;
+  --cream:#E8DCC4;
+  --white:#F5F3EE;
+  --gray:#9A9EA8;
+  --border:#292E38;
+  --teal:#2A9D8F;
+  --danger:#c95757;
+  --shadow:0 15px 50px rgba(0,0,0,.35);
 }
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html{
-    scroll-behavior:smooth;
-}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
 
 body{
-    font-family:Tahoma,Arial,sans-serif;
-    background:
-        radial-gradient(circle at top right,rgba(201,154,62,.08),transparent 30%),
-        var(--bg);
-    color:var(--white);
-    line-height:1.9;
+  margin:0;
+  font-family:Tahoma,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(201,154,62,.09),transparent 30%),
+    radial-gradient(circle at 90% 20%,rgba(42,157,143,.06),transparent 25%),
+    var(--bg);
+  color:var(--white);
+  line-height:1.8;
+}
+
+button,input,select,textarea{font-family:inherit}
+
+button{
+  cursor:pointer;
+  border:0;
 }
 
 a{
-    color:inherit;
-    text-decoration:none;
-}
-
-button,
-input,
-textarea,
-select{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
+  color:inherit;
+  text-decoration:none;
 }
 
 .container{
-    width:min(1200px,92%);
-    margin:auto;
+  width:min(1180px,92%);
+  margin:auto;
 }
-
-/* HEADER */
 
 header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-    background:rgba(11,13,18,.92);
-    backdrop-filter:blur(15px);
-    border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(11,13,18,.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
 }
 
-.navbar{
-    min-height:75px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
+.nav{
+  min-height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
 }
 
 .logo{
-    color:var(--gold2);
-    font-size:22px;
-    font-weight:bold;
-    white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:20px;
+  font-weight:900;
+  white-space:nowrap;
 }
 
-.nav-links{
-    display:flex;
-    flex-wrap:wrap;
-    gap:7px;
-    align-items:center;
+.logo-mark{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--gold),#76551d);
+  box-shadow:0 8px 25px rgba(201,154,62,.18);
 }
 
-.nav-links a,
-.admin-nav-btn{
-    color:var(--cream);
-    padding:9px 12px;
-    border-radius:10px;
-    background:transparent;
-    border:1px solid transparent;
-    font-size:13px;
+nav{
+  display:flex;
+  gap:5px;
+  overflow-x:auto;
+  scrollbar-width:none;
 }
 
-.nav-links a:hover,
-.admin-nav-btn:hover{
-    color:var(--gold2);
-    border-color:var(--border);
-    background:rgba(255,255,255,.03);
+nav::-webkit-scrollbar{display:none}
+
+nav button{
+  background:transparent;
+  color:var(--gray);
+  padding:9px 12px;
+  border-radius:10px;
+  white-space:nowrap;
+  transition:.2s;
 }
 
-/* HERO */
+nav button:hover{
+  color:var(--gold2);
+  background:rgba(201,154,62,.08);
+}
 
 .hero{
-    min-height:650px;
-    display:flex;
-    align-items:center;
-    text-align:center;
-    position:relative;
-    overflow:hidden;
+  min-height:650px;
+  display:flex;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
 }
 
-.hero::before{
-    content:"";
-    position:absolute;
-    width:500px;
-    height:500px;
-    background:rgba(201,154,62,.08);
-    filter:blur(100px);
-    border-radius:50%;
-    top:-180px;
-    right:-100px;
+.hero:before{
+  content:"";
+  position:absolute;
+  width:550px;
+  height:550px;
+  border-radius:50%;
+  background:rgba(201,154,62,.08);
+  filter:blur(90px);
+  left:-180px;
+  top:30px;
 }
 
 .hero-content{
-    position:relative;
-    z-index:2;
-    width:100%;
+  position:relative;
+  max-width:850px;
 }
 
 .badge{
-    display:inline-block;
-    border:1px solid rgba(201,154,62,.35);
-    color:var(--gold2);
-    padding:7px 15px;
-    border-radius:30px;
-    margin-bottom:20px;
-    font-size:13px;
+  display:inline-flex;
+  padding:7px 13px;
+  border:1px solid rgba(201,154,62,.3);
+  background:rgba(201,154,62,.08);
+  color:var(--gold2);
+  border-radius:999px;
+  font-size:13px;
 }
 
 .hero h1{
-    font-size:clamp(38px,7vw,78px);
-    line-height:1.2;
-    color:var(--gold2);
-    margin-bottom:20px;
+  font-size:clamp(42px,7vw,82px);
+  line-height:1.05;
+  margin:20px 0;
+  letter-spacing:-3px;
+}
+
+.gradient{
+  background:linear-gradient(90deg,var(--gold2),var(--cream),var(--gold));
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
 .hero p{
-    max-width:760px;
-    margin:0 auto 30px;
-    color:var(--gray);
-    font-size:17px;
+  color:var(--gray);
+  font-size:18px;
+  max-width:750px;
 }
 
-.hero-buttons{
-    display:flex;
-    justify-content:center;
-    gap:12px;
-    flex-wrap:wrap;
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:28px;
 }
 
 .btn{
-    border:0;
-    padding:12px 22px;
-    border-radius:12px;
-    font-weight:bold;
-    transition:.2s;
+  padding:12px 20px;
+  border-radius:12px;
+  font-weight:800;
+  transition:.2s;
 }
 
 .btn:hover{
-    transform:translateY(-2px);
+  transform:translateY(-2px);
 }
 
 .btn-primary{
-    background:var(--gold);
-    color:#111;
+  color:#17120a;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
 }
 
 .btn-secondary{
-    background:var(--card);
-    color:var(--cream);
-    border:1px solid var(--border);
+  color:var(--white);
+  background:var(--card);
+  border:1px solid var(--border);
 }
-
-/* SECTIONS */
 
 section{
-    padding:75px 0;
+  padding:75px 0;
+  scroll-margin-top:80px;
 }
 
-.section-title{
-    text-align:center;
-    margin-bottom:40px;
+.section-head{
+  margin-bottom:30px;
 }
 
-.section-title h2{
-    color:var(--gold2);
-    font-size:30px;
-    margin-bottom:8px;
+.section-head h2{
+  margin:0 0 8px;
+  font-size:34px;
 }
 
-.section-title p{
-    color:var(--gray);
+.section-head p{
+  margin:0;
+  color:var(--gray);
 }
 
-/* SEARCH */
-
-.search-box{
-    max-width:800px;
-    margin:0 auto 50px;
-    display:flex;
-    gap:10px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
 }
 
-.search-box input{
-    flex:1;
-    background:var(--card);
-    border:1px solid var(--border);
-    color:white;
-    padding:15px 18px;
-    border-radius:12px;
-    outline:none;
+.grid-3{
+  grid-template-columns:repeat(3,1fr);
 }
 
-.search-box input:focus{
-    border-color:var(--gold);
-}
-
-/* CARDS */
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
+.grid-2{
+  grid-template-columns:repeat(2,1fr);
 }
 
 .card{
-    background:linear-gradient(145deg,#181b24,#111319);
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:25px;
-    transition:.25s;
+  background:linear-gradient(145deg,var(--card),#11141b);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  transition:.25s;
 }
 
 .card:hover{
-    transform:translateY(-5px);
-    border-color:rgba(201,154,62,.5);
+  transform:translateY(-4px);
+  border-color:rgba(201,154,62,.4);
+}
+
+.clickable{
+  cursor:pointer;
 }
 
 .card-icon{
-    font-size:35px;
-    margin-bottom:10px;
+  font-size:35px;
+  margin-bottom:10px;
 }
 
 .card h3{
-    color:var(--cream);
-    margin-bottom:8px;
+  margin:5px 0;
 }
 
 .card p{
-    color:var(--gray);
-    font-size:14px;
+  color:var(--gray);
+  margin:5px 0 0;
 }
 
-/* PODCAST */
+.eyebrow{
+  color:var(--gold2);
+  font-size:13px;
+  font-weight:bold;
+}
 
-.podcast-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
+.search-box{
+  display:flex;
+  gap:10px;
+  margin:25px 0;
+}
+
+input,textarea,select{
+  width:100%;
+  background:#0f1218;
+  color:var(--white);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:13px 15px;
+  outline:none;
+}
+
+input:focus,textarea:focus,select:focus{
+  border-color:var(--gold);
+}
+
+.search-box input{
+  flex:1;
+}
+
+.result{
+  margin-top:15px;
+  color:var(--gray);
 }
 
 .podcast{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:18px;
-    overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
 
-.podcast-cover{
-    height:190px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:
-        linear-gradient(135deg,rgba(201,154,62,.2),rgba(42,157,143,.08)),
-        #111319;
-    color:var(--gold2);
-    font-size:50px;
+.podcast button{
+  align-self:flex-start;
 }
 
-.podcast-cover img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+.audio{
+  width:100%;
 }
-
-.podcast-body{
-    padding:20px;
-}
-
-.podcast-category{
-    color:var(--gold2);
-    font-size:12px;
-}
-
-.podcast h3{
-    margin:7px 0;
-}
-
-.podcast p{
-    color:var(--gray);
-    font-size:13px;
-    margin-bottom:12px;
-}
-
-.podcast audio{
-    width:100%;
-}
-
-.podcast-date{
-    color:#777;
-    font-size:11px;
-    margin-top:10px;
-}
-
-/* TIMELINE */
 
 .timeline{
-    position:relative;
-    max-width:900px;
-    margin:auto;
-}
-
-.timeline::before{
-    content:"";
-    position:absolute;
-    right:50%;
-    width:2px;
-    top:0;
-    bottom:0;
-    background:var(--border);
+  position:relative;
+  border-right:2px solid var(--gold);
+  padding-right:25px;
 }
 
 .timeline-item{
-    width:50%;
-    padding:20px;
-    position:relative;
+  position:relative;
+  margin-bottom:30px;
 }
 
-.timeline-item:nth-child(odd){
-    margin-right:0;
+.timeline-item:before{
+  content:"";
+  position:absolute;
+  right:-34px;
+  top:8px;
+  width:13px;
+  height:13px;
+  background:var(--gold);
+  border-radius:50%;
+  box-shadow:0 0 0 5px var(--bg);
 }
 
-.timeline-item:nth-child(even){
-    margin-right:50%;
+.timeline-year{
+  color:var(--gold2);
+  font-weight:bold;
 }
 
-.timeline-content{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:15px;
-    padding:20px;
+.map{
+  min-height:410px;
+  border-radius:22px;
+  border:1px solid var(--border);
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 60% 45%,rgba(201,154,62,.16),transparent 25%),
+    linear-gradient(145deg,#121820,#0d1117);
+  position:relative;
 }
 
-.timeline-content strong{
-    color:var(--gold2);
+.map-land{
+  position:absolute;
+  width:70%;
+  height:60%;
+  right:15%;
+  top:20%;
+  border:2px solid rgba(201,154,62,.45);
+  background:rgba(201,154,62,.08);
+  clip-path:polygon(
+    12% 12%,30% 4%,46% 13%,60% 5%,76% 18%,91% 28%,
+    83% 45%,92% 61%,72% 67%,78% 87%,57% 93%,42% 78%,
+    24% 88%,14% 68%,4% 51%,13% 36%
+  );
 }
 
-/* AI */
+.map-point{
+  position:absolute;
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background:var(--gold2);
+  box-shadow:0 0 0 7px rgba(226,184,91,.13);
+  cursor:pointer;
+}
+
+.point1{right:53%;top:42%}
+.point2{right:43%;top:52%}
+.point3{right:67%;top:35%}
+.point4{right:37%;top:35%}
+
+.map-label{
+  position:absolute;
+  background:rgba(11,13,18,.85);
+  border:1px solid var(--border);
+  padding:5px 9px;
+  border-radius:8px;
+  font-size:12px;
+  transform:translate(50%,15px);
+  white-space:nowrap;
+}
+
+.quiz-box{
+  max-width:850px;
+  margin:auto;
+}
+
+.question{
+  font-size:22px;
+  font-weight:bold;
+  margin:20px 0;
+}
+
+.options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.option{
+  padding:15px;
+  text-align:right;
+  border-radius:12px;
+  color:var(--white);
+  background:#10141b;
+  border:1px solid var(--border);
+}
+
+.option:hover{
+  border-color:var(--gold);
+}
+
+.option.correct{
+  border-color:var(--teal);
+  background:rgba(42,157,143,.15);
+}
+
+.option.wrong{
+  border-color:var(--danger);
+  background:rgba(201,87,87,.12);
+}
+
+.progress{
+  height:8px;
+  background:#0d1015;
+  border-radius:99px;
+  overflow:hidden;
+  margin:15px 0;
+}
+
+.progress span{
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  width:0;
+}
 
 .ai-box{
-    max-width:900px;
-    margin:auto;
-    background:linear-gradient(145deg,#161a23,#101217);
-    border:1px solid var(--border);
-    border-radius:22px;
-    padding:30px;
+  max-width:850px;
+  margin:auto;
 }
 
-.ai-response{
-    min-height:120px;
-    background:#0d0f14;
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:20px;
-    color:var(--gray);
-    margin-bottom:15px;
-    white-space:pre-wrap;
+.ai-message{
+  min-height:130px;
+  padding:20px;
+  background:#10141b;
+  border:1px solid var(--border);
+  border-radius:18px;
+  margin-top:15px;
+  color:var(--gray);
 }
 
 .ai-input{
-    display:flex;
-    gap:10px;
+  display:flex;
+  gap:10px;
+  margin-top:12px;
 }
 
-.ai-input input{
-    flex:1;
-    background:var(--card);
-    border:1px solid var(--border);
-    color:white;
-    border-radius:12px;
-    padding:13px;
+.mission-progress{
+  margin-top:15px;
 }
 
-/* FEATURES */
-
-.features{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
+.progress-text{
+  color:var(--gray);
+  font-size:13px;
 }
 
-/* ADMIN */
-
-.admin-section{
-    display:none;
+.filters{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
 }
 
-.admin-login{
-    max-width:500px;
-    margin:0 auto;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:30px;
+.filter{
+  background:var(--card);
+  color:var(--gray);
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:8px 14px;
 }
 
-.admin-login h3{
-    color:var(--gold2);
-    margin-bottom:20px;
-    text-align:center;
+.filter.active{
+  color:#17120a;
+  background:var(--gold2);
 }
 
-.form-group{
-    margin-bottom:15px;
+.empty{
+  padding:30px;
+  text-align:center;
+  color:var(--gray);
+  border:1px dashed var(--border);
+  border-radius:15px;
 }
 
-.form-group label{
-    display:block;
-    color:var(--cream);
-    font-size:13px;
-    margin-bottom:6px;
+footer{
+  border-top:1px solid var(--border);
+  padding:45px 0;
+  color:var(--gray);
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select{
-    width:100%;
-    background:#0d0f14;
-    border:1px solid var(--border);
-    color:white;
-    border-radius:10px;
-    padding:12px;
-    outline:none;
+.footer-main{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
 }
 
-.form-group textarea{
-    min-height:110px;
-    resize:vertical;
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);
+  z-index:500;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus{
-    border-color:var(--gold);
+.modal.show{
+  display:flex;
 }
 
-.admin-panel{
-    display:none;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:30px;
+.modal-content{
+  width:min(800px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#12161e;
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:25px;
+  position:relative;
 }
 
-.admin-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    margin-bottom:25px;
-    flex-wrap:wrap;
+.close{
+  position:absolute;
+  left:18px;
+  top:15px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:var(--card);
+  color:var(--white);
+  font-size:20px;
 }
 
-.admin-top h3{
-    color:var(--gold2);
+.detail-title{
+  font-size:32px;
+  margin:15px 0;
+  color:var(--gold2);
 }
 
-.status{
-    padding:10px 14px;
-    border-radius:10px;
-    background:#0d0f14;
-    border:1px solid var(--border);
-    color:var(--gray);
-    margin-bottom:15px;
-    display:none;
+.detail-meta{
+  color:var(--gray);
+  margin-bottom:20px;
 }
 
-.status.success{
-    display:block;
-    border-color:rgba(42,157,143,.5);
-    color:#79d6cb;
-}
-
-.status.error{
-    display:block;
-    border-color:rgba(217,83,79,.5);
-    color:#ff9692;
+.favorite{
+  color:var(--gold2);
 }
 
 .admin-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:30px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
 }
 
-.admin-list{
-    border-top:1px solid var(--border);
-    margin-top:20px;
-    padding-top:20px;
+.form{
+  display:grid;
+  gap:12px;
 }
 
-.admin-item{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    padding:15px 0;
-    border-bottom:1px solid var(--border);
+.notice{
+  padding:13px 16px;
+  background:rgba(42,157,143,.1);
+  border:1px solid rgba(42,157,143,.3);
+  border-radius:12px;
+  color:#a9e4dc;
 }
 
-.admin-item-info{
-    min-width:0;
+.danger{
+  color:#ff9b9b;
 }
-
-.admin-item-info strong{
-    color:var(--cream);
-}
-
-.admin-item-info small{
-    display:block;
-    color:var(--gray);
-}
-
-.delete-btn{
-    background:rgba(217,83,79,.12);
-    border:1px solid rgba(217,83,79,.4);
-    color:#ff9692;
-    padding:8px 12px;
-    border-radius:8px;
-}
-
-/* FOOTER */
-
-footer{
-    border-top:1px solid var(--border);
-    padding:35px 0;
-    color:var(--gray);
-    text-align:center;
-}
-
-.footer-brand{
-    color:var(--gold2);
-    font-weight:bold;
-    font-size:20px;
-    margin-bottom:10px;
-}
-
-/* MOBILE */
 
 @media(max-width:900px){
+  .grid,.grid-3{
+    grid-template-columns:1fr 1fr;
+  }
 
-    .navbar{
-        flex-direction:column;
-        padding:15px 0;
-    }
+  .admin-grid{
+    grid-template-columns:1fr;
+  }
 
-    .nav-links{
-        justify-content:center;
-    }
-
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .podcast-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .features{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .admin-grid{
-        grid-template-columns:1fr;
-    }
+  nav{
+    max-width:55vw;
+  }
 }
 
 @media(max-width:600px){
+  .hero{
+    min-height:580px;
+  }
 
-    section{
-        padding:55px 0;
-    }
+  .hero h1{
+    font-size:45px;
+  }
 
-    .hero{
-        min-height:580px;
-    }
+  .grid,.grid-2,.grid-3{
+    grid-template-columns:1fr;
+  }
 
-    .cards,
-    .podcast-grid,
-    .features{
-        grid-template-columns:1fr;
-    }
+  .options{
+    grid-template-columns:1fr;
+  }
 
-    .search-box,
-    .ai-input{
-        flex-direction:column;
-    }
+  .search-box,.ai-input{
+    flex-direction:column;
+  }
 
-    .timeline::before{
-        right:10px;
-    }
+  section{
+    padding:55px 0;
+  }
 
-    .timeline-item,
-    .timeline-item:nth-child(even){
-        width:100%;
-        margin-right:0;
-        padding-right:35px;
-    }
+  .nav{
+    min-height:62px;
+  }
 
-    .admin-panel,
-    .admin-login{
-        padding:20px;
-    }
+  .logo{
+    font-size:16px;
+  }
+
+  .logo-mark{
+    width:34px;
+    height:34px;
+  }
+
+  nav{
+    max-width:48vw;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-
 <header>
-<div class="container navbar">
-
-    <a href="#home" class="logo">
-        ⏳ صدای تاریخ
+  <div class="container nav">
+    <a class="logo" href="#home">
+      <span class="logo-mark">⏳</span>
+      <span>صدای تاریخ</span>
     </a>
 
-    <nav class="nav-links">
-        <a href="#home">خانه</a>
-        <a href="#podcast">پادکست</a>
-        <a href="#iran">ایران</a>
-        <a href="#world">جهان</a>
-        <a href="#wars">جنگ‌ها</a>
-        <a href="#empires">امپراتوری‌ها</a>
-        <a href="#ai">هوش تاریخی</a>
-        <a href="#timeline">خط زمانی</a>
-        <a href="#features">امکانات</a>
-
-        <button class="admin-nav-btn" onclick="toggleAdmin()">
-            ⚙️ مدیریت
-        </button>
+    <nav>
+      <button onclick="go('home')">خانه</button>
+      <button onclick="go('podcast')">🎙️ پادکست</button>
+      <button onclick="go('iran')">🇮🇷 ایران</button>
+      <button onclick="go('world')">🌍 جهان</button>
+      <button onclick="go('wars')">⚔️ جنگ‌ها</button>
+      <button onclick="go('empires')">👑 امپراتوری‌ها</button>
+      <button onclick="go('ai')">🤖 هوش تاریخی</button>
+      <button onclick="go('timeline')">⏳ خط زمانی</button>
+      <button onclick="go('features')">⚙️ امکانات</button>
     </nav>
-
-</div>
+  </div>
 </header>
 
+<main>
 
-<!-- HERO -->
+<section id="home" class="hero">
+  <div class="container hero-content">
+    <span class="badge">🏛️ تاریخ را فقط نخوان؛ کشفش کن</span>
 
-<section class="hero" id="home">
-
-<div class="container hero-content">
-
-    <span class="badge">دانشنامه زنده تاریخ</span>
-
-    <h1>صدای تاریخ</h1>
+    <h1>
+      صدای <span class="gradient">تاریخ</span>
+    </h1>
 
     <p>
-        سفری در میان تمدن‌ها، جنگ‌ها، امپراتوری‌ها،
-        شخصیت‌های تاریخی و داستان‌هایی که جهان امروز را ساخته‌اند.
+      یک جهان تعاملی برای کشف تاریخ ایران و جهان؛
+      از تمدن‌ها و امپراتوری‌ها تا جنگ‌ها، شخصیت‌ها،
+      خط زمانی، نقشه تاریخی، آزمون و ماشین زمان.
     </p>
 
-    <div class="hero-buttons">
-        <a href="#podcast" class="btn btn-primary">
-            🎙️ شنیدن پادکست‌ها
-        </a>
-
-        <a href="#features" class="btn btn-secondary">
-            🏛️ کشف تاریخ
-        </a>
-    </div>
-
-</div>
-
-</section>
-
-
-<!-- SEARCH -->
-
-<section>
-
-<div class="container">
-
-    <div class="section-title">
-        <h2>🔎 جست‌وجوی تاریخ</h2>
-        <p>موضوع، شخصیت، جنگ یا تمدن موردنظر خود را پیدا کنید.</p>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="go('iran')">شروع کشف تاریخ ←</button>
+      <button class="btn btn-secondary" onclick="go('timeline')">⏳ ورود به خط زمانی</button>
     </div>
 
     <div class="search-box">
-
-        <input
-            id="searchInput"
-            type="text"
-            placeholder="مثلاً کوروش، جنگ جهانی دوم، روم..."
-        >
-
-        <button class="btn btn-primary" onclick="searchHistory()">
-            جست‌وجو
-        </button>
-
+      <input id="mainSearch" placeholder="جستجو در تاریخ؛ مثلاً کوروش، روم، جنگ جهانی دوم...">
+      <button class="btn btn-primary" onclick="advancedSearch()">جستجو</button>
     </div>
 
-    <div id="searchResult" style="text-align:center;color:var(--gray);"></div>
-
-</div>
-
+    <div id="searchResult" class="result"></div>
+  </div>
 </section>
 
 
-<!-- CATEGORIES -->
+<section id="world">
+<div class="container">
+  <div class="section-head">
+    <span class="eyebrow">WORLD OF HISTORY</span>
+    <h2>دنیای تاریخ</h2>
+    <p>یک دروازه برای ورود به مهم‌ترین بخش‌های تاریخ.</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card clickable" onclick="openCategory('iran')">
+      <div class="card-icon">🇮🇷</div>
+      <h3>تاریخ ایران</h3>
+      <p>از ایران باستان تا دوره‌های معاصر.</p>
+    </div>
+
+    <div class="card clickable" onclick="openCategory('world')">
+      <div class="card-icon">🌍</div>
+      <h3>تاریخ جهان</h3>
+      <p>تمدن‌ها، کشورها و رویدادهای مهم جهان.</p>
+    </div>
+
+    <div class="card clickable" onclick="openCategory('wars')">
+      <div class="card-icon">⚔️</div>
+      <h3>جنگ‌ها</h3>
+      <p>نبردهای مهم و تأثیر آن‌ها بر تاریخ.</p>
+    </div>
+
+    <div class="card clickable" onclick="openCategory('empires')">
+      <div class="card-icon">👑</div>
+      <h3>امپراتوری‌ها</h3>
+      <p>قدرت‌هایی که مسیر تاریخ را تغییر دادند.</p>
+    </div>
+
+  </div>
+</div>
+</section>
+
 
 <section id="iran">
-
 <div class="container">
+  <div class="section-head">
+    <span class="eyebrow">IRAN</span>
+    <h2>🇮🇷 تاریخ ایران</h2>
+    <p>تمدن‌ها و شخصیت‌های برجسته ایران را کشف کن.</p>
+  </div>
 
-    <div class="section-title">
-        <h2>📚 دنیای تاریخ</h2>
-        <p>مسیر خودت را در تاریخ انتخاب کن.</p>
-    </div>
-
-    <div class="cards">
-
-        <div class="card">
-            <div class="card-icon">🇮🇷</div>
-            <h3>تاریخ ایران</h3>
-            <p>
-                از ایران باستان تا دوره معاصر؛
-                شاهان، تمدن‌ها، فرهنگ و رویدادهای مهم.
-            </p>
-        </div>
-
-        <div class="card" id="world">
-            <div class="card-icon">🌍</div>
-            <h3>تاریخ جهان</h3>
-            <p>
-                تمدن‌ها و رویدادهای مهم سراسر جهان
-                در یک مجموعه منظم.
-            </p>
-        </div>
-
-        <div class="card" id="wars">
-            <div class="card-icon">⚔️</div>
-            <h3>جنگ‌ها</h3>
-            <p>
-                بررسی جنگ‌های مهم، زمینه تاریخی،
-                طرف‌های درگیر و پیامدها.
-            </p>
-        </div>
-
-        <div class="card" id="empires">
-            <div class="card-icon">👑</div>
-            <h3>امپراتوری‌ها</h3>
-            <p>
-                ظهور، گسترش، ساختار و سقوط
-                امپراتوری‌های بزرگ تاریخ.
-            </p>
-        </div>
-
-    </div>
-
+  <div id="iranGrid" class="grid grid-3"></div>
 </div>
-
 </section>
 
 
-<!-- PODCAST -->
+<section id="worldHistory">
+<div class="container">
+  <div class="section-head">
+    <span class="eyebrow">WORLD</span>
+    <h2>🌍 تاریخ جهان</h2>
+    <p>از مصر و یونان تا روم و تمدن‌های بزرگ جهان.</p>
+  </div>
+
+  <div id="worldGrid" class="grid grid-3"></div>
+</div>
+</section>
+
+
+<section id="wars">
+<div class="container">
+  <div class="section-head">
+    <span class="eyebrow">WARS</span>
+    <h2>⚔️ جنگ‌ها</h2>
+    <p>نبردهایی که مسیر تاریخ را تغییر دادند.</p>
+  </div>
+
+  <div id="warsGrid" class="grid grid-3"></div>
+</div>
+</section>
+
+
+<section id="empires">
+<div class="container">
+  <div class="section-head">
+    <span class="eyebrow">EMPIRES</span>
+    <h2>👑 امپراتوری‌ها</h2>
+    <p>قدرت‌های بزرگ تاریخ در یک نگاه.</p>
+  </div>
+
+  <div id="empiresGrid" class="grid grid-3"></div>
+</div>
+</section>
+
+
+<section id="figures">
+<div class="container">
+  <div class="section-head">
+    <span class="eyebrow">FIGURES</span>
+    <h2>👤 شخصیت‌های تاریخی</h2>
+    <p>با چهره‌هایی آشنا شو که تاریخ را شکل دادند.</p>
+  </div>
+
+  <div id="figuresGrid" class="grid grid-3"></div>
+</div>
+</section>
+
 
 <section id="podcast">
-
 <div class="container">
+  <div class="section-head">
+    <span class="eyebrow">PODCAST</span>
+    <h2>🎙️ پادکست‌های صدای تاریخ</h2>
+    <p>در این بخش می‌توانی اپیزودهای تاریخی را اضافه و مدیریت کنی.</p>
+  </div>
 
-    <div class="section-title">
-        <h2>🎙️ پادکست‌های صدای تاریخ</h2>
-        <p>داستان‌های تاریخی را بشنو.</p>
-    </div>
-
-    <!-- Backend podcasts will be inserted here -->
-
-    <div id="podcastList" class="podcast-grid">
-
-        <article class="podcast">
-
-            <div class="podcast-cover">
-                🎙️
-            </div>
-
-            <div class="podcast-body">
-
-                <span class="podcast-category">
-                    نمونه
-                </span>
-
-                <h3>
-                    آغاز سفر در تاریخ
-                </h3>
-
-                <p>
-                    یک قسمت آزمایشی از پروژه صدای تاریخ.
-                </p>
-
-                <audio controls>
-                    <source src="" type="audio/mpeg">
-                </audio>
-
-            </div>
-
-        </article>
-
-
-        <article class="podcast">
-
-            <div class="podcast-cover">
-                🏛️
-            </div>
-
-            <div class="podcast-body">
-
-                <span class="podcast-category">
-                    ایران
-                </span>
-
-                <h3>
-                    ایران باستان
-                </h3>
-
-                <p>
-                    آشنایی با تاریخ و تمدن ایران باستان.
-                </p>
-
-                <audio controls>
-                    <source src="" type="audio/mpeg">
-                </audio>
-
-            </div>
-
-        </article>
-
-
-        <article class="podcast">
-
-            <div class="podcast-cover">
-                🌍
-            </div>
-
-            <div class="podcast-body">
-
-                <span class="podcast-category">
-                    جهان
-                </span>
-
-                <h3>
-                    داستان تمدن‌ها
-                </h3>
-
-                <p>
-                    نگاهی کوتاه به تمدن‌های بزرگ جهان.
-                </p>
-
-                <audio controls>
-                    <source src="" type="audio/mpeg">
-                </audio>
-
-            </div>
-
-        </article>
-
-    </div>
-
+  <div id="podcastGrid" class="grid grid-3"></div>
 </div>
-
 </section>
 
-
-<!-- AI -->
 
 <section id="ai">
-
 <div class="container">
+  <div class="section-head">
+    <span class="eyebrow">HISTORICAL AI</span>
+    <h2>🤖 هوش تاریخی</h2>
+    <p>
+      دستیار تاریخی آفلاین صدای تاریخ؛
+      بر پایه دانش داخلی سایت.
+    </p>
+  </div>
 
-    <div class="section-title">
-        <h2>🤖 هوش تاریخی</h2>
-        <p>
-            دستیار هوشمند تاریخ؛ نسخه اولیه رابط کاربری.
-        </p>
+  <div class="card ai-box">
+    <div class="notice">
+      💡 این نسخه برای کارکرد روی GitHub Pages به‌صورت آفلاین طراحی شده است.
+      برای اتصال به یک مدل هوش مصنوعی واقعی، بعداً می‌توان Backend اضافه کرد.
     </div>
 
-    <div class="ai-box">
-
-        <div id="aiResponse" class="ai-response">
-            سلام! 👋
-            <br>
-            من دستیار تاریخی صدای تاریخ هستم.
-            <br>
-            اتصال هوش مصنوعی در مرحله بعدی فعال می‌شود.
-        </div>
-
-        <div class="ai-input">
-
-            <input
-                id="aiInput"
-                placeholder="یک سؤال تاریخی بنویس..."
-            >
-
-            <button
-                class="btn btn-primary"
-                onclick="askAI()"
-            >
-                ارسال
-            </button>
-
-        </div>
-
+    <div class="ai-input">
+      <input id="aiInput" placeholder="مثلاً: کوروش بزرگ چه کسی بود؟">
+      <button class="btn btn-primary" onclick="askAI()">پرسش</button>
     </div>
 
+    <div id="aiAnswer" class="ai-message">
+      سلام! من هوش تاریخی صدای تاریخ هستم. درباره موضوعات موجود در دانشنامه از من بپرس.
+    </div>
+  </div>
 </div>
-
 </section>
 
-
-<!-- TIMELINE -->
 
 <section id="timeline">
-
 <div class="container">
+  <div class="section-head">
+    <span class="eyebrow">TIMELINE</span>
+    <h2>⏳ خط زمانی تاریخ</h2>
+    <p>رویدادها را بر اساس دوره تاریخی دنبال کن.</p>
+  </div>
 
-    <div class="section-title">
-        <h2>⏳ خط زمانی تاریخ</h2>
-        <p>چند نقطه مهم از تاریخ بشر</p>
-    </div>
+  <div class="filters">
+    <button class="filter active" onclick="filterTimeline('all',this)">همه</button>
+    <button class="filter" onclick="filterTimeline('iran',this)">ایران</button>
+    <button class="filter" onclick="filterTimeline('world',this)">جهان</button>
+    <button class="filter" onclick="filterTimeline('war',this)">جنگ</button>
+  </div>
 
-    <div class="timeline">
-
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <strong>حدود ۳۲۰۰ پیش از میلاد</strong>
-                <h3>ظهور خط</h3>
-                <p>
-                    شکل‌گیری نخستین نظام‌های نوشتاری شناخته‌شده.
-                </p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <strong>۵۵۰ پیش از میلاد</strong>
-                <h3>ظهور هخامنشیان</h3>
-                <p>
-                    شکل‌گیری شاهنشاهی هخامنشی در ایران.
-                </p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <strong>۳۳۴ پیش از میلاد</strong>
-                <h3>فتوحات اسکندر</h3>
-                <p>
-                    آغاز لشکرکشی‌های بزرگ اسکندر مقدونی به شرق.
-                </p>
-            </div>
-        </div>
-
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <strong>۱۹۳۹ میلادی</strong>
-                <h3>جنگ جهانی دوم</h3>
-                <p>
-                    آغاز یکی از بزرگ‌ترین جنگ‌های تاریخ معاصر.
-                </p>
-            </div>
-        </div>
-
-    </div>
-
+  <div id="timelineList" class="timeline"></div>
 </div>
-
 </section>
 
 
-<!-- FEATURES -->
+<section id="map">
+<div class="container">
+  <div class="section-head">
+    <span class="eyebrow">HISTORICAL MAP</span>
+    <h2>🗺️ نقشه تاریخ</h2>
+    <p>روی نقاط تاریخی کلیک کن.</p>
+  </div>
+
+  <div class="map">
+    <div class="map-land"></div>
+
+    <div class="map-point point1" onclick="mapInfo('ایران باستان')">
+      <span class="map-label">ایران</span>
+    </div>
+
+    <div class="map-point point2" onclick="mapInfo('روم')">
+      <span class="map-label">روم</span>
+    </div>
+
+    <div class="map-point point3" onclick="mapInfo('مصر باستان')">
+      <span class="map-label">مصر</span>
+    </div>
+
+    <div class="map-point point4" onclick="mapInfo('یونان')">
+      <span class="map-label">یونان</span>
+    </div>
+  </div>
+
+  <div id="mapInfo" class="result"></div>
+</div>
+</section>
+
+
+<section id="timeMachine">
+<div class="container">
+  <div class="section-head">
+    <span class="eyebrow">TIME MACHINE</span>
+    <h2>🕰️ ماشین زمان</h2>
+    <p>یک سال را انتخاب کن و ببین در آن دوره چه می‌گذشت.</p>
+  </div>
+
+  <div class="card">
+    <div class="search-box">
+      <input id="yearInput" type="number" placeholder="مثلاً 550">
+      <button class="btn btn-primary" onclick="timeMachine()">سفر در زمان</button>
+    </div>
+
+    <div id="timeResult" class="result">
+      سالی وارد کن تا سفر آغاز شود...
+    </div>
+  </div>
+</div>
+</section>
+
+
+<section id="quiz">
+<div class="container">
+  <div class="section-head">
+    <span class="eyebrow">HISTORY QUIZ</span>
+    <h2>🧠 آزمون تاریخ</h2>
+    <p>دانشت را امتحان کن و امتیازت را ثبت کن.</p>
+  </div>
+
+  <div class="card quiz-box">
+    <div id="quizArea"></div>
+  </div>
+</div>
+</section>
+
+
+<section id="encyclopedia">
+<div class="container">
+  <div class="section-head">
+    <span class="eyebrow">ENCYCLOPEDIA</span>
+    <h2>📚 دانشنامه</h2>
+    <p>جستجو در مجموعه‌ای از موضوعات تاریخی.</p>
+  </div>
+
+  <div class="search-box">
+    <input id="encySearch" oninput="renderEncyclopedia()" placeholder="موضوع مورد نظر را بنویس...">
+  </div>
+
+  <div id="encyGrid" class="grid grid-3"></div>
+</div>
+</section>
+
+
+<section id="missions">
+<div class="container">
+  <div class="section-head">
+    <span class="eyebrow">MISSIONS</span>
+    <h2>🏆 مأموریت‌ها</h2>
+    <p>با کشف بخش‌های مختلف صدای تاریخ پیشرفت کن.</p>
+  </div>
+
+  <div id="missionGrid" class="grid grid-3"></div>
+</div>
+</section>
+
 
 <section id="features">
-
 <div class="container">
+  <div class="section-head">
+    <span class="eyebrow">FEATURES</span>
+    <h2>⚙️ امکانات</h2>
+    <p>همه ابزارهای اصلی صدای تاریخ.</p>
+  </div>
 
-    <div class="section-title">
-        <h2>🚀 امکانات صدای تاریخ</h2>
-        <p>
-            این پروژه قرار است به یک پلتفرم کامل تاریخی تبدیل شود.
-        </p>
+  <div class="grid grid-3">
+
+    <div class="card clickable" onclick="go('map')">
+      <div class="card-icon">🗺️</div>
+      <h3>نقشه تاریخ</h3>
+      <p>بررسی نقاط تاریخی.</p>
     </div>
 
-    <div class="features">
-
-        <div class="card">
-            <div class="card-icon">🗺️</div>
-            <h3>نقشه تاریخی</h3>
-            <p>
-                بررسی تغییر مرزها و سرزمین‌ها در دوره‌های مختلف.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="card-icon">🕰️</div>
-            <h3>ماشین زمان</h3>
-            <p>
-                انتخاب یک سال و مشاهده جهان در همان دوره.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="card-icon">🧠</div>
-            <h3>آزمون تاریخی</h3>
-            <p>
-                سنجش اطلاعات تاریخی با آزمون‌های تعاملی.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="card-icon">👤</div>
-            <h3>شخصیت‌های تاریخی</h3>
-            <p>
-                زندگی و دستاوردهای شخصیت‌های مهم تاریخ.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="card-icon">📚</div>
-            <h3>دانشنامه</h3>
-            <p>
-                ساخت یک مرجع جامع و قابل جست‌وجوی تاریخی.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="card-icon">🏆</div>
-            <h3>ماموریت‌ها</h3>
-            <p>
-                مأموریت‌ها و دستاوردهای تعاملی برای کاربران.
-            </p>
-        </div>
-
+    <div class="card clickable" onclick="go('timeMachine')">
+      <div class="card-icon">🕰️</div>
+      <h3>ماشین زمان</h3>
+      <p>سفر به سال‌های مختلف.</p>
     </div>
 
+    <div class="card clickable" onclick="go('quiz')">
+      <div class="card-icon">🧠</div>
+      <h3>آزمون تاریخ</h3>
+      <p>آزمون و امتیازدهی.</p>
+    </div>
+
+    <div class="card clickable" onclick="go('figures')">
+      <div class="card-icon">👤</div>
+      <h3>شخصیت‌ها</h3>
+      <p>شناخت چهره‌های تاریخی.</p>
+    </div>
+
+    <div class="card clickable" onclick="go('encyclopedia')">
+      <div class="card-icon">📚</div>
+      <h3>دانشنامه</h3>
+      <p>جستجو در اطلاعات تاریخی.</p>
+    </div>
+
+    <div class="card clickable" onclick="go('missions')">
+      <div class="card-icon">🏆</div>
+      <h3>مأموریت‌ها</h3>
+      <p>پیشرفت و تکمیل مأموریت‌ها.</p>
+    </div>
+
+  </div>
 </div>
-
 </section>
 
 
-<!-- ADMIN -->
-
-<section id="adminSection" class="admin-section">
-
+<section id="admin">
 <div class="container">
+  <div class="section-head">
+    <span class="eyebrow">LOCAL ADMIN</span>
+    <h2>🛠️ پنل مدیریت</h2>
+    <p>مدیریت محلی پادکست‌ها در مرورگر.</p>
+  </div>
 
-    <div class="section-title">
-        <h2>⚙️ مدیریت صدای تاریخ</h2>
-        <p>
-            این بخش فقط برای مدیر سایت است.
-        </p>
+  <div class="card">
+    <div class="notice">
+      ⚠️ این پنل فعلاً محلی است. چون GitHub Pages فقط فایل‌های استاتیک را میزبانی می‌کند،
+      اطلاعات این بخش فقط در مرورگر خودت ذخیره می‌شود و برای ساخت پنل عمومی امن،
+      بعداً Backend و Database لازم است.
     </div>
 
+    <br>
 
-    <!-- LOGIN -->
+    <div class="admin-grid">
 
-    <div id="adminLoginBox" class="admin-login">
+      <div>
+        <h3>➕ افزودن اپیزود</h3>
 
-        <h3>🔐 ورود مدیر</h3>
+        <div class="form">
+          <input id="podTitle" placeholder="عنوان پادکست">
+          <input id="podDesc" placeholder="توضیح کوتاه">
+          <input id="podAudio" placeholder="لینک فایل صوتی (اختیاری)">
 
-        <div id="loginStatus" class="status"></div>
+          <button class="btn btn-primary" onclick="addPodcast()">
+            انتشار محلی
+          </button>
 
-        <div class="form-group">
-
-            <label>
-                نام کاربری
-            </label>
-
-            <input
-                id="adminUsername"
-                type="text"
-                placeholder="admin"
-                autocomplete="username"
-            >
-
+          <button class="btn btn-secondary" onclick="clearPodcasts()">
+            حذف همه پادکست‌های محلی
+          </button>
         </div>
+      </div>
 
+      <div>
+        <h3>📊 وضعیت سایت</h3>
 
-        <div class="form-group">
-
-            <label>
-                رمز عبور
-            </label>
-
-            <input
-                id="adminPassword"
-                type="password"
-                placeholder="رمز عبور"
-                autocomplete="current-password"
-            >
-
+        <div class="card">
+          <p>⭐ علاقه‌مندی‌ها: <b id="favCount">0</b></p>
+          <p>🏆 مأموریت‌های انجام‌شده: <b id="missionCount">0</b></p>
+          <p>🧠 بهترین امتیاز آزمون: <b id="bestScore">0</b></p>
         </div>
-
-
-        <button
-            class="btn btn-primary"
-            style="width:100%"
-            onclick="adminLogin()"
-        >
-            🔑 ورود به پنل
-        </button>
+      </div>
 
     </div>
-
-
-    <!-- ADMIN PANEL -->
-
-    <div id="adminPanel" class="admin-panel">
-
-        <div class="admin-top">
-
-            <h3>
-                👑 پنل مدیریت
-            </h3>
-
-            <button
-                class="btn btn-secondary"
-                onclick="adminLogout()"
-            >
-                خروج
-            </button>
-
-        </div>
-
-
-        <div id="adminStatus" class="status"></div>
-
-
-        <div class="admin-grid">
-
-            <!-- UPLOAD -->
-
-            <div>
-
-                <h3 style="color:var(--cream);margin-bottom:20px;">
-                    🎙️ انتشار پادکست جدید
-                </h3>
-
-                <div class="form-group">
-
-                    <label>
-                        عنوان پادکست
-                    </label>
-
-                    <input
-                        id="podcastTitle"
-                        type="text"
-                        placeholder="مثلاً سقوط امپراتوری روم"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        توضیحات
-                    </label>
-
-                    <textarea
-                        id="podcastDescription"
-                        placeholder="توضیحات پادکست..."
-                    ></textarea>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        دسته‌بندی
-                    </label>
-
-                    <select id="podcastCategory">
-
-                        <option value="ایران">
-                            ایران
-                        </option>
-
-                        <option value="جهان">
-                            جهان
-                        </option>
-
-                        <option value="جنگ‌ها">
-                            جنگ‌ها
-                        </option>
-
-                        <option value="امپراتوری‌ها">
-                            امپراتوری‌ها
-                        </option>
-
-                        <option value="شخصیت‌ها">
-                            شخصیت‌های تاریخی
-                        </option>
-
-                        <option value="سایر">
-                            سایر
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        تاریخ
-                    </label>
-
-                    <input
-                        id="podcastDate"
-                        type="date"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        کاور پادکست
-                    </label>
-
-                    <input
-                        id="podcastCover"
-                        type="file"
-                        accept="image/png,image/jpeg,image/webp"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        فایل صوتی
-                    </label>
-
-                    <input
-                        id="podcastAudio"
-                        type="file"
-                        accept=".mp3,.wav,.ogg,.m4a,.aac,.webm,audio/*"
-                    >
-
-                </div>
-
-
-                <button
-                    class="btn btn-primary"
-                    style="width:100%"
-                    onclick="previewPodcast()"
-                >
-                    👁️ پیش‌نمایش
-                </button>
-
-                <br><br>
-
-                <button
-                    class="btn btn-primary"
-                    style="width:100%"
-                    onclick="publishPodcast()"
-                >
-                    🚀 انتشار پادکست
-                </button>
-
-
-                <button
-                    class="btn btn-secondary"
-                    style="width:100%;margin-top:10px"
-                    onclick="clearPodcastForm()"
-                >
-                    پاک کردن فرم
-                </button>
-
-            </div>
-
-
-            <!-- PREVIEW -->
-
-            <div>
-
-                <h3 style="color:var(--cream);margin-bottom:20px;">
-                    👁️ پیش‌نمایش
-                </h3>
-
-                <div id="podcastPreview">
-
-                    <div class="podcast">
-
-                        <div class="podcast-cover">
-                            🎙️
-                        </div>
-
-                        <div class="podcast-body">
-
-                            <span class="podcast-category">
-                                پیش‌نمایش
-                            </span>
-
-                            <h3>
-                                عنوان پادکست
-                            </h3>
-
-                            <p>
-                                توضیحات پادکست در اینجا نمایش داده می‌شود.
-                            </p>
-
-                            <audio controls></audio>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ADMIN PODCAST LIST -->
-
-        <div class="admin-list">
-
-            <h3 style="color:var(--cream);margin-bottom:15px;">
-                🎙️ پادکست‌های منتشرشده
-            </h3>
-
-            <div id="adminPodcastList">
-                در حال دریافت اطلاعات...
-            </div>
-
-        </div>
-
-    </div>
-
+  </div>
 </div>
-
 </section>
 
+</main>
 
-<!-- FOOTER -->
 
 <footer>
+<div class="container footer-main">
+  <div>
+    <h3>⏳ صدای تاریخ</h3>
+    <p>روایتی تعاملی از تاریخ ایران و جهان.</p>
+  </div>
 
-<div class="container">
-
-    <div class="footer-brand">
-        ⏳ صدای تاریخ
-    </div>
-
-    <p>
-        تاریخ را بشنو، ببین و کشف کن.
-    </p>
-
-    <p style="margin-top:10px;font-size:12px;">
-        © 2026 Sadaye Tarikh
-    </p>
-
+  <div>
+    <p>طراحی و توسعه: <strong>آبتین زاغی</strong></p>
+    <p>© 2026 Seday-e Tarikh</p>
+  </div>
 </div>
-
 </footer>
+
+
+<div id="modal" class="modal" onclick="closeModal(event)">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal()">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
 
 
 <script>
 
-/* =====================================================
-   CONFIG
-===================================================== */
+/* =========================
+   DATA
+========================= */
 
-const API_BASE = https://seday-tarikh-backend-2.onrender.com
+const iranData = [
+  {
+    id:"cyrus",
+    title:"کوروش بزرگ",
+    year:"حدود ۵۵۹ تا ۵۳۰ پیش از میلاد",
+    icon:"👑",
+    text:"کوروش بزرگ بنیان‌گذار شاهنشاهی هخامنشی بود و در تاریخ ایران جایگاه بسیار مهمی دارد."
+  },
+  {
+    id:"achaemenid",
+    title:"هخامنشیان",
+    year:"حدود ۵۵۰ تا ۳۳۰ پیش از میلاد",
+    icon:"🏛️",
+    text:"شاهنشاهی هخامنشی یکی از بزرگ‌ترین قدرت‌های جهان باستان بود و قلمرو گسترده‌ای داشت."
+  },
+  {
+    id:"sassanid",
+    title:"ساسانیان",
+    year:"۲۲۴ تا ۶۵۱ میلادی",
+    icon:"🦁",
+    text:"شاهنشاهی ساسانی یکی از مهم‌ترین حکومت‌های ایران باستان و رقیب بزرگ روم بود."
+  },
+  {
+    id:"safavid",
+    title:"صفویان",
+    year:"۱۵۰۱ تا ۱۷۳۶ میلادی",
+    icon:"🕌",
+    text:"صفویان نقش مهمی در شکل‌گیری دولت متمرکز ایران و تثبیت تشیع دوازده‌امامی داشتند."
+  },
+  {
+    id:"persepolis",
+    title:"تخت جمشید",
+    year:"دوره هخامنشی",
+    icon:"🏛️",
+    text:"تخت جمشید یکی از مشهورترین مجموعه‌های معماری ایران باستان است."
+  },
+  {
+    id:"medes",
+    title:"مادها",
+    year:"هزاره اول پیش از میلاد",
+    icon:"🛡️",
+    text:"مادها از حکومت‌های مهم ایرانی پیش از شکل‌گیری شاهنشاهی هخامنشی بودند."
+  }
+];
 
-let adminToken =
-    localStorage.getItem("sadayeTarikhAdminToken") || "";
+const worldData = [
+  {
+    id:"rome",
+    title:"امپراتوری روم",
+    year:"دوره باستان",
+    icon:"🏛️",
+    text:"روم یکی از تأثیرگذارترین قدرت‌های سیاسی، نظامی و فرهنگی جهان باستان بود."
+  },
+  {
+    id:"egypt",
+    title:"مصر باستان",
+    year:"هزاره‌های پیش از میلاد",
+    icon:"🔺",
+    text:"تمدن مصر باستان در کنار رود نیل شکل گرفت و آثار بزرگی مانند اهرام را ایجاد کرد."
+  },
+  {
+    id:"greece",
+    title:"یونان باستان",
+    year:"دوره باستان",
+    icon:"🏺",
+    text:"یونان باستان در فلسفه، سیاست، هنر و علوم تأثیر عمیقی بر جهان گذاشت."
+  },
+  {
+    id:"alexander",
+    title:"اسکندر مقدونی",
+    year:"۳۵۶ تا ۳۲۳ پیش از میلاد",
+    icon:"⚔️",
+    text:"اسکندر مقدونی در مدت کوتاهی قلمروی وسیعی را در اروپا، آسیا و مصر فتح کرد."
+  },
+  {
+    id:"china",
+    title:"چین باستان",
+    year:"دوره‌های باستانی",
+    icon:"🐉",
+    text:"چین دارای یکی از قدیمی‌ترین تمدن‌های پیوسته جهان است."
+  },
+  {
+    id:"mesopotamia",
+    title:"بین‌النهرین",
+    year:"دوران باستان",
+    icon:"🏺",
+    text:"بین‌النهرین میان رودهای دجله و فرات قرار داشت و یکی از مراکز اولیه شهرنشینی بود."
+  }
+];
 
-let previewAudioURL = null;
-let previewCoverURL = null;
+const warsData = [
+  {
+    id:"ww1",
+    title:"جنگ جهانی اول",
+    year:"۱۹۱۴–۱۹۱۸",
+    icon:"⚔️",
+    text:"یکی از بزرگ‌ترین جنگ‌های تاریخ مدرن که بخش بزرگی از اروپا و قدرت‌های جهانی را درگیر کرد."
+  },
+  {
+    id:"ww2",
+    title:"جنگ جهانی دوم",
+    year:"۱۹۳۹–۱۹۴۵",
+    icon:"🌍",
+    text:"جنگی جهانی که در چندین قاره رخ داد و پیامدهای سیاسی و اجتماعی بسیار گسترده‌ای داشت."
+  },
+  {
+    id:"peloponnesian",
+    title:"جنگ پلوپونزی",
+    year:"۴۳۱–۴۰۴ پیش از میلاد",
+    icon:"🏺",
+    text:"درگیری طولانی میان آتن و اسپارت و متحدان آن‌ها در یونان باستان."
+  },
+  {
+    id:"greco-persian",
+    title:"جنگ‌های ایران و یونان",
+    year:"قرن پنجم پیش از میلاد",
+    icon:"🛡️",
+    text:"مجموعه‌ای از درگیری‌ها میان شاهنشاهی هخامنشی و دولت‌شهرهای یونانی."
+  },
+  {
+    id:"roman-persian",
+    title:"جنگ‌های ایران و روم",
+    year:"دوره باستان",
+    icon:"🏛️",
+    text:"مجموعه‌ای طولانی از رقابت‌ها و جنگ‌ها میان قدرت‌های ایران و روم."
+  }
+];
+
+const empiresData = [
+  {
+    id:"achaemenidEmpire",
+    title:"شاهنشاهی هخامنشی",
+    year:"حدود ۵۵۰–۳۳۰ پیش از میلاد",
+    icon:"👑",
+    text:"شاهنشاهی بزرگی که توسط کوروش بزرگ بنیان گذاشته شد."
+  },
+  {
+    id:"romanEmpire",
+    title:"امپراتوری روم",
+    year:"۲۷ پیش از میلاد تا ۴۷۶ میلادی در غرب",
+    icon:"🏛️",
+    text:"یکی از قدرتمندترین امپراتوری‌های جهان باستان."
+  },
+  {
+    id:"mongol",
+    title:"امپراتوری مغول",
+    year:"قرن سیزدهم و چهاردهم میلادی",
+    icon:"🐎",
+    text:"امپراتوری گسترده‌ای که در دوره چنگیزخان و جانشینانش شکل گرفت."
+  },
+  {
+    id:"ottoman",
+    title:"امپراتوری عثمانی",
+    year:"حدود ۱۲۹۹–۱۹۲۲",
+    icon:"☪️",
+    text:"امپراتوری بزرگی که بخش‌هایی از اروپا، آسیا و آفریقا را در دوره‌های مختلف دربر گرفت."
+  },
+  {
+    id:"sassanidEmpire",
+    title:"شاهنشاهی ساسانی",
+    year:"۲۲۴–۶۵۱ میلادی",
+    icon:"🦁",
+    text:"آخرین شاهنشاهی بزرگ ایران پیش از فتح ایران توسط مسلمانان."
+  }
+];
+
+const figuresData = [
+  ...iranData.slice(0,4),
+  ...worldData.filter(x=>["alexander","rome"].includes(x.id))
+];
+
+const timelineData = [
+  {year:"۵۵۰ پیش از میلاد",title:"ظهور شاهنشاهی هخامنشی",cat:"iran",text:"تشکیل یکی از مهم‌ترین شاهنشاهی‌های جهان باستان."},
+  {year:"۳۳۰ پیش از میلاد",title:"پایان شاهنشاهی هخامنشی",cat:"iran",text:"با فتوحات اسکندر مقدونی، شاهنشاهی هخامنشی پایان یافت."},
+  {year:"۲۲۴ میلادی",title:"آغاز شاهنشاهی ساسانی",cat:"iran",text:"اردشیر بابکان حکومت ساسانی را بنیان گذاشت."},
+  {year:"۴۷۶ میلادی",title:"سقوط امپراتوری روم غربی",cat:"world",text:"پایان سنتی دوره امپراتوری روم غربی."},
+  {year:"۱۵۰۱ میلادی",title:"ظهور صفویان",cat:"iran",text:"شاه اسماعیل صفوی حکومت صفوی را بنیان گذاشت."},
+  {year:"۱۹۱۴",title:"آغاز جنگ جهانی اول",cat:"war",text:"جنگ جهانی اول آغاز شد."},
+  {year:"۱۹۳۹",title:"آغاز جنگ جهانی دوم",cat:"war",text:"جنگ جهانی دوم در اروپا آغاز شد."},
+  {year:"۱۹۴۵",title:"پایان جنگ جهانی دوم",cat:"war",text:"جنگ جهانی دوم پایان یافت."}
+];
+
+const encyclopediaData = [
+  ...iranData,
+  ...worldData,
+  ...warsData,
+  ...empiresData
+];
+
+const quizQuestions = [
+  {
+    q:"بنیان‌گذار شاهنشاهی هخامنشی چه کسی بود؟",
+    options:["کوروش بزرگ","داریوش سوم","خشایارشا","اردشیر بابکان"],
+    answer:0
+  },
+  {
+    q:"جنگ جهانی دوم در چه سالی آغاز شد؟",
+    options:["۱۹۱۴","۱۹۳۹","۱۹۴۵","۱۹۲۹"],
+    answer:1
+  },
+  {
+    q:"تخت جمشید مربوط به کدام دوره است؟",
+    options:["ساسانی","صفوی","هخامنشی","قاجار"],
+    answer:2
+  },
+  {
+    q:"کدام تمدن با رود نیل ارتباط مستقیم داشت؟",
+    options:["روم","مصر باستان","یونان","هخامنشی"],
+    answer:1
+  },
+  {
+    q:"کدام حکومت در سال ۱۵۰۱ میلادی در ایران شکل گرفت؟",
+    options:["صفویان","ساسانیان","اشکانیان","مادها"],
+    answer:0
+  }
+];
+
+const missionsData = [
+  {id:"iran",title:"کاوشگر ایران",desc:"یک موضوع از تاریخ ایران را باز کن."},
+  {id:"world",title:"جهان‌گرد تاریخی",desc:"یک موضوع از تاریخ جهان را باز کن."},
+  {id:"war",title:"تاریخ جنگ‌ها",desc:"یک جنگ تاریخی را بررسی کن."},
+  {id:"empire",title:"امپراتوری‌شناس",desc:"یک امپراتوری را باز کن."},
+  {id:"quiz",title:"دانش‌آموز تاریخ",desc:"یک آزمون را کامل کن."},
+  {id:"time",title:"مسافر زمان",desc:"با ماشین زمان سفر کن."}
+];
 
 
-/* =====================================================
-   HELPERS
-===================================================== */
+/* =========================
+   NAVIGATION
+========================= */
 
-function escapeHTML(value){
+function go(id){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:"smooth"});
+}
 
-    if(value === null || value === undefined){
-        return "";
-    }
+function openCategory(category){
+  const map={
+    iran:"iran",
+    world:"worldHistory",
+    wars:"wars",
+    empires:"empires"
+  };
 
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+  if(map[category]){
+    go(map[category]);
+  }
 }
 
 
-function showStatus(elementId,message,type){
+/* =========================
+   RENDER CARDS
+========================= */
 
-    const box = document.getElementById(elementId);
+function renderCards(data,elementId){
+  const el=document.getElementById(elementId);
 
-    if(!box){
-        return;
-    }
+  el.innerHTML=data.map(item=>`
+    <div class="card clickable" onclick="openDetail('${item.id}')">
+      <div class="card-icon">${item.icon||"📜"}</div>
+      <span class="eyebrow">${item.year||""}</span>
+      <h3>${item.title}</h3>
+      <p>${item.text}</p>
+    </div>
+  `).join("");
+}
 
-    box.className = "status " + type;
-    box.textContent = message;
+function allData(){
+  return [...iranData,...worldData,...warsData,...empiresData];
+}
+
+function findItem(id){
+  return allData().find(x=>x.id===id);
 }
 
 
-function hideStatus(elementId){
+/* =========================
+   DETAILS
+========================= */
 
-    const box = document.getElementById(elementId);
+function openDetail(id){
+  const item=findItem(id);
+  if(!item)return;
 
-    if(!box){
-        return;
-    }
+  markMission(item);
 
-    box.className = "status";
-    box.textContent = "";
+  const fav=isFavorite(id);
+
+  document.getElementById("modalBody").innerHTML=`
+    <div class="card-icon">${item.icon||"📜"}</div>
+    <div class="eyebrow">${item.year||"تاریخی"}</div>
+    <h2 class="detail-title">${item.title}</h2>
+    <div class="detail-meta">${item.text}</div>
+
+    <button class="btn btn-secondary" onclick="toggleFavorite('${id}')">
+      ${fav?"★ حذف از علاقه‌مندی‌ها":"☆ افزودن به علاقه‌مندی‌ها"}
+    </button>
+  `;
+
+  document.getElementById("modal").classList.add("show");
+  updateStats();
+}
+
+function closeModal(e){
+  if(!e || e.target.id==="modal" || e.target.classList.contains("close")){
+    document.getElementById("modal").classList.remove("show");
+  }
 }
 
 
-/* =====================================================
-   ADMIN SECTION
-===================================================== */
+/* =========================
+   FAVORITES
+========================= */
 
-function toggleAdmin(){
+function getFavorites(){
+  return JSON.parse(localStorage.getItem("seday_favorites")||"[]");
+}
 
-    const section =
-        document.getElementById("adminSection");
+function isFavorite(id){
+  return getFavorites().includes(id);
+}
 
-    section.style.display = "block";
+function toggleFavorite(id){
+  let fav=getFavorites();
 
-    section.scrollIntoView({
-        behavior:"smooth"
-    });
+  if(fav.includes(id)){
+    fav=fav.filter(x=>x!==id);
+  }else{
+    fav.push(id);
+  }
 
-    if(adminToken){
+  localStorage.setItem("seday_favorites",JSON.stringify(fav));
 
-        checkAdminSession();
-
-    }else{
-
-        showLogin();
-
-    }
+  openDetail(id);
+  updateStats();
 }
 
 
-function showLogin(){
-
-    document.getElementById("adminLoginBox").style.display =
-        "block";
-
-    document.getElementById("adminPanel").style.display =
-        "none";
-}
-
-
-function showAdminPanel(){
-
-    document.getElementById("adminLoginBox").style.display =
-        "none";
-
-    document.getElementById("adminPanel").style.display =
-        "block";
-
-    loadAdminPodcasts();
-}
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-async function adminLogin(){
-
-    const username =
-        document.getElementById("adminUsername").value.trim();
-
-    const password =
-        document.getElementById("adminPassword").value;
-
-    if(!username || !password){
-
-        showStatus(
-            "loginStatus",
-            "لطفاً نام کاربری و رمز عبور را وارد کن.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    showStatus(
-        "loginStatus",
-        "در حال ورود...",
-        "success"
-    );
-
-
-    try{
-
-        const body =
-            new URLSearchParams();
-
-        body.append("username",username);
-        body.append("password",password);
-
-
-        const response =
-            await fetch(
-                API_BASE + "/api/admin/login",
-                {
-                    method:"POST",
-                    headers:{
-                        "Content-Type":
-                            "application/x-www-form-urlencoded"
-                    },
-                    body:body.toString()
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if(!response.ok){
-
-            throw new Error(
-                data.detail ||
-                "نام کاربری یا رمز عبور اشتباه است."
-            );
-
-        }
-
-
-        adminToken = data.token;
-
-
-        localStorage.setItem(
-            "sadayeTarikhAdminToken",
-            adminToken
-        );
-
-
-        showStatus(
-            "loginStatus",
-            "ورود موفق بود! 👑",
-            "success"
-        );
-
-
-        document.getElementById("adminPassword").value = "";
-
-
-        setTimeout(()=>{
-            showAdminPanel();
-        },300);
-
-    }catch(error){
-
-        showStatus(
-            "loginStatus",
-            "خطا: " + error.message,
-            "error"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   CHECK SESSION
-===================================================== */
-
-async function checkAdminSession(){
-
-    if(!adminToken){
-
-        showLogin();
-
-        return;
-    }
-
-
-    try{
-
-        const response =
-            await fetch(
-                API_BASE +
-                "/api/admin/check?token=" +
-                encodeURIComponent(adminToken)
-            );
-
-
-        if(!response.ok){
-
-            throw new Error("Session invalid");
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if(data.authenticated){
-
-            showAdminPanel();
-
-        }else{
-
-            adminLogout(false);
-
-        }
-
-    }catch(error){
-
-        localStorage.removeItem(
-            "sadayeTarikhAdminToken"
-        );
-
-        adminToken = "";
-
-        showLogin();
-
-        showStatus(
-            "loginStatus",
-            "نشست مدیر معتبر نیست. دوباره وارد شو.",
-            "error"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-async function adminLogout(showMessage=true){
-
-    if(adminToken){
-
-        try{
-
-            await fetch(
-                API_BASE +
-                "/api/admin/logout?token=" +
-                encodeURIComponent(adminToken),
-                {
-                    method:"POST"
-                }
-            );
-
-        }catch(error){
-
-            console.log(error);
-
-        }
-
-    }
-
-
-    adminToken = "";
-
-
-    localStorage.removeItem(
-        "sadayeTarikhAdminToken"
-    );
-
-
-    showLogin();
-
-
-    if(showMessage){
-
-        showStatus(
-            "loginStatus",
-            "از حساب مدیر خارج شدی.",
-            "success"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   FILE PREVIEW
-===================================================== */
-
-function previewPodcast(){
-
-    const title =
-        document.getElementById("podcastTitle").value.trim();
-
-    const description =
-        document.getElementById("podcastDescription").value.trim();
-
-    const category =
-        document.getElementById("podcastCategory").value;
-
-    const date =
-        document.getElementById("podcastDate").value;
-
-    const audioFile =
-        document.getElementById("podcastAudio").files[0];
-
-    const coverFile =
-        document.getElementById("podcastCover").files[0];
-
-
-    if(previewAudioURL){
-
-        URL.revokeObjectURL(previewAudioURL);
-
-        previewAudioURL = null;
-    }
-
-
-    if(previewCoverURL){
-
-        URL.revokeObjectURL(previewCoverURL);
-
-        previewCoverURL = null;
-    }
-
-
-    if(audioFile){
-
-        previewAudioURL =
-            URL.createObjectURL(audioFile);
-
-    }
-
-
-    if(coverFile){
-
-        previewCoverURL =
-            URL.createObjectURL(coverFile);
-
-    }
-
-
-    const coverHTML =
-        previewCoverURL
-        ?
-        `<img src="${previewCoverURL}" alt="کاور">`
-        :
-        `🎙️`;
-
-
-    document.getElementById("podcastPreview").innerHTML = `
-
-        <article class="podcast">
-
-            <div class="podcast-cover">
-                ${coverHTML}
-            </div>
-
-            <div class="podcast-body">
-
-                <span class="podcast-category">
-                    ${escapeHTML(category || "پیش‌نمایش")}
-                </span>
-
-                <h3>
-                    ${escapeHTML(title || "عنوان پادکست")}
-                </h3>
-
-                <p>
-                    ${escapeHTML(
-                        description ||
-                        "توضیحات پادکست در اینجا نمایش داده می‌شود."
-                    )}
-                </p>
-
-                ${
-                    previewAudioURL
-                    ?
-                    `<audio controls src="${previewAudioURL}"></audio>`
-                    :
-                    `<audio controls></audio>`
-                }
-
-                ${
-                    date
-                    ?
-                    `<div class="podcast-date">
-                        تاریخ: ${escapeHTML(date)}
-                    </div>`
-                    :
-                    ""
-                }
-
-            </div>
-
-        </article>
-
-    `;
-
-}
-
-
-/* =====================================================
-   PUBLISH PODCAST
-===================================================== */
-
-async function publishPodcast(){
-
-    if(!adminToken){
-
-        showLogin();
-
-        showStatus(
-            "loginStatus",
-            "ابتدا باید وارد حساب مدیر شوی.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    const title =
-        document.getElementById("podcastTitle").value.trim();
-
-    const description =
-        document.getElementById("podcastDescription").value.trim();
-
-    const category =
-        document.getElementById("podcastCategory").value;
-
-    const date =
-        document.getElementById("podcastDate").value ||
-        new Date().toISOString().slice(0,10);
-
-    const audioFile =
-        document.getElementById("podcastAudio").files[0];
-
-    const coverFile =
-        document.getElementById("podcastCover").files[0];
-
-
-    if(!title){
-
-        showStatus(
-            "adminStatus",
-            "عنوان پادکست را وارد کن.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if(!audioFile){
-
-        showStatus(
-            "adminStatus",
-            "فایل صوتی را انتخاب کن.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    /* Frontend size check */
-
-    const maxAudioSize =
-        8 * 1024 * 1024;
-
-
-    if(audioFile.size > maxAudioSize){
-
-        showStatus(
-            "adminStatus",
-            "حجم فایل صوتی نباید بیشتر از ۸ مگابایت باشد.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    showStatus(
-        "adminStatus",
-        "در حال آپلود و انتشار پادکست... ⏳",
-        "success"
-    );
-
-
-    try{
-
-        const formData =
-            new FormData();
-
-
-        formData.append(
-            "token",
-            adminToken
-        );
-
-
-        formData.append(
-            "title",
-            title
-        );
-
-
-        formData.append(
-            "description",
-            description
-        );
-
-
-        formData.append(
-            "category",
-            category
-        );
-
-
-        formData.append(
-            "date",
-            date
-        );
-
-
-        formData.append(
-            "audio",
-            audioFile
-        );
-
-
-        if(coverFile){
-
-            formData.append(
-                "cover",
-                coverFile
-            );
-
-        }
-
-
-        const response =
-            await fetch(
-                API_BASE +
-                "/api/admin/podcasts",
-                {
-                    method:"POST",
-                    body:formData
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if(response.status === 401){
-
-            adminToken = "";
-
-            localStorage.removeItem(
-                "sadayeTarikhAdminToken"
-            );
-
-            showLogin();
-
-            showStatus(
-                "loginStatus",
-                "نشست مدیر منقضی شده است. دوباره وارد شو.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        if(!response.ok){
-
-            throw new Error(
-                data.detail ||
-                "انتشار پادکست ناموفق بود."
-            );
-
-        }
-
-
-        showStatus(
-            "adminStatus",
-            "پادکست با موفقیت منتشر شد! 🎉",
-            "success"
-        );
-
-
-        clearPodcastForm();
-
-
-        await loadPublicPodcasts();
-
-        await loadAdminPodcasts();
-
-
-    }catch(error){
-
-        showStatus(
-            "adminStatus",
-            "خطا: " + error.message,
-            "error"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   CLEAR FORM
-===================================================== */
-
-function clearPodcastForm(){
-
-    document.getElementById(
-        "podcastTitle"
-    ).value = "";
-
-
-    document.getElementById(
-        "podcastDescription"
-    ).value = "";
-
-
-    document.getElementById(
-        "podcastDate"
-    ).value = "";
-
-
-    document.getElementById(
-        "podcastCover"
-    ).value = "";
-
-
-    document.getElementById(
-        "podcastAudio"
-    ).value = "";
-
-
-    if(previewAudioURL){
-
-        URL.revokeObjectURL(previewAudioURL);
-
-        previewAudioURL = null;
-
-    }
-
-
-    if(previewCoverURL){
-
-        URL.revokeObjectURL(previewCoverURL);
-
-        previewCoverURL = null;
-
-    }
-
-
-    document.getElementById(
-        "podcastPreview"
-    ).innerHTML = `
-
-        <div class="podcast">
-
-            <div class="podcast-cover">
-                🎙️
-            </div>
-
-            <div class="podcast-body">
-
-                <span class="podcast-category">
-                    پیش‌نمایش
-                </span>
-
-                <h3>
-                    عنوان پادکست
-                </h3>
-
-                <p>
-                    توضیحات پادکست در اینجا نمایش داده می‌شود.
-                </p>
-
-                <audio controls></audio>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =====================================================
-   LOAD PUBLIC PODCASTS
-===================================================== */
-
-async function loadPublicPodcasts(){
-
-    try{
-
-        const response =
-            await fetch(
-                API_BASE + "/api/podcasts"
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "خطا در دریافت پادکست‌ها"
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        const podcasts =
-            data.podcasts || [];
-
-
-        const list =
-            document.getElementById(
-                "podcastList"
-            );
-
-
-        /*
-           حذف پادکست‌هایی که قبلاً
-           از Backend ساخته شده‌اند.
-        */
-
-        list
-            .querySelectorAll(
-                ".server-podcast"
-            )
-            .forEach(
-                element => element.remove()
-            );
-
-
-        /*
-           Backend معمولاً جدیدترین را اول می‌دهد.
-           reverse می‌کنیم تا insertBefore ترتیب درست داشته باشد.
-        */
-
-        podcasts
-            .slice()
-            .reverse()
-            .forEach(
-                podcast => {
-
-                    const element =
-                        createPodcastElement(
-                            podcast
-                        );
-
-                    element.classList.add(
-                        "server-podcast"
-                    );
-
-                    list.insertBefore(
-                        element,
-                        list.firstChild
-                    );
-
-                }
-            );
-
-
-    }catch(error){
-
-        console.log(
-            "Public podcast error:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   CREATE PODCAST CARD
-===================================================== */
-
-function createPodcastElement(podcast){
-
-    const article =
-        document.createElement("article");
-
-    article.className =
-        "podcast";
-
-
-    const title =
-        escapeHTML(podcast.title);
-
-    const description =
-        escapeHTML(podcast.description);
-
-    const category =
-        escapeHTML(podcast.category);
-
-    const date =
-        escapeHTML(podcast.date);
-
-
-    let coverHTML =
-        "🎙️";
-
-
-    if(podcast.cover_url){
-
-        coverHTML =
-            `<img
-                src="${API_BASE + podcast.cover_url}"
-                alt="${title}"
-                loading="lazy"
-            >`;
-
-    }
-
-
-    let audioHTML =
-        "";
-
-
-    if(podcast.audio_url){
-
-        audioHTML =
-            `
-            <audio
-                controls
-                preload="metadata"
-                src="${API_BASE + podcast.audio_url}"
-            ></audio>
-            `;
-
-    }
-
-
-    article.innerHTML = `
-
-        <div class="podcast-cover">
-            ${coverHTML}
-        </div>
-
-        <div class="podcast-body">
-
-            <span class="podcast-category">
-                ${category || "سایر"}
-            </span>
-
-            <h3>
-                ${title}
-            </h3>
-
-            <p>
-                ${description || "بدون توضیحات"}
-            </p>
-
-            ${audioHTML}
-
-            ${
-                date
-                ?
-                `
-                <div class="podcast-date">
-                    📅 ${date}
-                </div>
-                `
-                :
-                ""
-            }
-
-        </div>
-
-    `;
-
-
-    return article;
-
-}
-
-
-/* =====================================================
-   LOAD ADMIN PODCASTS
-===================================================== */
-
-async function loadAdminPodcasts(){
-
-    if(!adminToken){
-
-        return;
-    }
-
-
-    const container =
-        document.getElementById(
-            "adminPodcastList"
-        );
-
-
-    container.textContent =
-        "در حال دریافت اطلاعات...";
-
-
-    try{
-
-        const response =
-            await fetch(
-                API_BASE + "/api/podcasts"
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if(!response.ok){
-
-            throw new Error(
-                data.detail ||
-                "خطا"
-            );
-
-        }
-
-
-        const podcasts =
-            data.podcasts || [];
-
-
-        if(podcasts.length === 0){
-
-            container.innerHTML =
-                `<p style="color:var(--gray)">
-                    هنوز پادکستی منتشر نشده است.
-                </p>`;
-
-            return;
-        }
-
-
-        container.innerHTML = "";
-
-
-        podcasts.forEach(
-            podcast => {
-
-                const item =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                item.className =
-                    "admin-item";
-
-
-                item.innerHTML = `
-
-                    <div class="admin-item-info">
-
-                        <strong>
-                            ${escapeHTML(
-                                podcast.title
-                            )}
-                        </strong>
-
-                        <small>
-                            ${escapeHTML(
-                                podcast.category ||
-                                "سایر"
-                            )}
-                            ${
-                                podcast.date
-                                ?
-                                " • " +
-                                escapeHTML(
-                                    podcast.date
-                                )
-                                :
-                                ""
-                            }
-                        </small>
-
-                    </div>
-
-
-                    <button
-                        class="delete-btn"
-                        onclick="deletePodcast('${escapeHTML(
-                            podcast.id
-                        )}')"
-                    >
-                        🗑️ حذف
-                    </button>
-
-                `;
-
-
-                container.appendChild(
-                    item
-                );
-
-            }
-        );
-
-
-    }catch(error){
-
-        container.innerHTML = `
-
-            <p style="color:#ff9692">
-                خطا در دریافت لیست پادکست‌ها:
-                ${escapeHTML(error.message)}
-            </p>
-
-        `;
-
-    }
-
-}
-
-
-/* =====================================================
-   DELETE PODCAST
-===================================================== */
-
-async function deletePodcast(id){
-
-    if(!adminToken){
-
-        showLogin();
-
-        return;
-    }
-
-
-    const confirmed =
-        confirm(
-            "آیا مطمئنی می‌خواهی این پادکست حذف شود؟"
-        );
-
-
-    if(!confirmed){
-
-        return;
-    }
-
-
-    try{
-
-        const response =
-            await fetch(
-                API_BASE +
-                "/api/admin/podcasts/" +
-                encodeURIComponent(id) +
-                "?token=" +
-                encodeURIComponent(adminToken),
-                {
-                    method:"DELETE"
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if(response.status === 401){
-
-            adminToken = "";
-
-            localStorage.removeItem(
-                "sadayeTarikhAdminToken"
-            );
-
-            showLogin();
-
-            showStatus(
-                "loginStatus",
-                "نشست مدیر منقضی شده است.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        if(!response.ok){
-
-            throw new Error(
-                data.detail ||
-                "حذف ناموفق بود."
-            );
-
-        }
-
-
-        showStatus(
-            "adminStatus",
-            "پادکست حذف شد. 🗑️",
-            "success"
-        );
-
-
-        await loadPublicPodcasts();
-
-        await loadAdminPodcasts();
-
-
-    }catch(error){
-
-        showStatus(
-            "adminStatus",
-            "خطا: " + error.message,
-            "error"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
+/* =========================
    SEARCH
-===================================================== */
+========================= */
 
-function searchHistory(){
+function advancedSearch(){
+  const q=document.getElementById("mainSearch").value.trim().toLowerCase();
+  const result=document.getElementById("searchResult");
 
-    const query =
-        document.getElementById(
-            "searchInput"
-        ).value.trim().toLowerCase();
+  if(!q){
+    result.innerHTML="🔎 عبارت جستجو را وارد کن.";
+    return;
+  }
 
+  const found=allData().filter(item=>
+    (item.title+" "+item.text+" "+item.year).toLowerCase().includes(q)
+  );
 
-    const result =
-        document.getElementById(
-            "searchResult"
-        );
+  if(!found.length){
+    result.innerHTML="❌ نتیجه‌ای پیدا نشد. عبارت دیگری امتحان کن.";
+    return;
+  }
 
-
-    if(!query){
-
-        result.textContent =
-            "یک عبارت برای جست‌وجو وارد کن.";
-
-        return;
-    }
-
-
-    const topics = {
-
-        "کوروش":
-            "کوروش بزرگ — بنیان‌گذار شاهنشاهی هخامنشی.",
-
-        "هخامنشی":
-            "شاهنشاهی هخامنشی یکی از مهم‌ترین امپراتوری‌های جهان باستان بود.",
-
-        "جنگ جهانی دوم":
-            "جنگ جهانی دوم از سال ۱۹۳۹ تا ۱۹۴۵ ادامه داشت.",
-
-        "روم":
-            "تمدن و دولت روم از تأثیرگذارترین قدرت‌های تاریخ اروپا و مدیترانه بود.",
-
-        "ایران":
-            "ایران دارای یکی از کهن‌ترین و پیوسته‌ترین سنت‌های تمدنی جهان است."
-
-    };
-
-
-    let found = null;
-
-
-    for(const key in topics){
-
-        if(key.includes(query) || query.includes(key)){
-
-            found = topics[key];
-
-            break;
-
-        }
-
-    }
-
-
-    if(found){
-
-        result.innerHTML =
-            "🔎 " +
-            escapeHTML(found);
-
-    }else{
-
-        result.textContent =
-            "برای این موضوع هنوز محتوای اختصاصی در سایت ثبت نشده است.";
-
-    }
-
+  result.innerHTML=`
+    <div class="card">
+      <h3>نتایج جستجو (${found.length})</h3>
+      ${found.slice(0,8).map(x=>`
+        <p>
+          <button class="btn btn-secondary" onclick="openDetail('${x.id}')">
+            ${x.icon||"📜"} ${x.title}
+          </button>
+        </p>
+      `).join("")}
+    </div>
+  `;
 }
 
 
-/* =====================================================
-   AI PLACEHOLDER
-===================================================== */
+/* =========================
+   AI
+========================= */
 
 function askAI(){
+  const input=document.getElementById("aiInput").value.trim();
+  const answer=document.getElementById("aiAnswer");
 
-    const input =
-        document.getElementById(
-            "aiInput"
-        );
+  if(!input){
+    answer.innerHTML="اول یک سؤال تاریخی بنویس.";
+    return;
+  }
 
-    const response =
-        document.getElementById(
-            "aiResponse"
-        );
+  const q=input.toLowerCase();
 
+  let response="";
 
-    const question =
-        input.value.trim();
+  if(q.includes("کوروش")){
+    response=`
+      <b>👑 کوروش بزرگ</b><br><br>
+      کوروش بزرگ بنیان‌گذار شاهنشاهی هخامنشی بود.
+      او در سده ششم پیش از میلاد حکومت کرد و با گسترش قلمرو خود
+      یکی از بزرگ‌ترین قدرت‌های جهان باستان را ایجاد کرد.
+    `;
+  }
 
+  else if(q.includes("هخامنشی")){
+    response=`
+      <b>🏛️ هخامنشیان</b><br><br>
+      شاهنشاهی هخامنشی حدود ۵۵۰ پیش از میلاد شکل گرفت و
+      تا فتوحات اسکندر مقدونی در ۳۳۰ پیش از میلاد ادامه داشت.
+    `;
+  }
 
-    if(!question){
+  else if(q.includes("جنگ جهانی دوم")){
+    response=`
+      <b>⚔️ جنگ جهانی دوم</b><br><br>
+      جنگ جهانی دوم از سال ۱۹۳۹ تا ۱۹۴۵ ادامه داشت و
+      یکی از گسترده‌ترین درگیری‌های نظامی تاریخ بود.
+    `;
+  }
 
-        response.textContent =
-            "لطفاً سؤال تاریخی خود را بنویس.";
+  else if(q.includes("جنگ جهانی اول")){
+    response=`
+      <b>⚔️ جنگ جهانی اول</b><br><br>
+      جنگ جهانی اول از ۱۹۱۴ تا ۱۹۱۸ ادامه داشت و
+      پیامدهای سیاسی بزرگی برای اروپا و جهان داشت.
+    `;
+  }
 
-        return;
-    }
+  else if(q.includes("روم")){
+    response=`
+      <b>🏛️ روم</b><br><br>
+      روم یکی از مهم‌ترین قدرت‌های سیاسی و نظامی جهان باستان بود
+      و میراث آن در حقوق، معماری، سیاست و فرهنگ بسیار گسترده است.
+    `;
+  }
 
+  else if(q.includes("اسکندر")){
+    response=`
+      <b>⚔️ اسکندر مقدونی</b><br><br>
+      اسکندر مقدونی در سده چهارم پیش از میلاد زندگی کرد و
+      با فتوحات گسترده خود قلمروی بزرگی در اروپا و آسیا ایجاد کرد.
+    `;
+  }
 
-    response.textContent =
-        "🤖 سؤال دریافت شد:\n\n" +
-        question +
-        "\n\n" +
-        "اتصال مدل هوش مصنوعی تاریخی در مرحله بعدی پروژه فعال خواهد شد.";
+  else if(q.includes("صفوی")){
+    response=`
+      <b>🕌 صفویان</b><br><br>
+      حکومت صفوی در سال ۱۵۰۱ میلادی توسط شاه اسماعیل اول شکل گرفت
+      و نقش مهمی در تاریخ سیاسی و مذهبی ایران داشت.
+    `;
+  }
 
+  else if(q.includes("ساسانی")){
+    response=`
+      <b>🦁 ساسانیان</b><br><br>
+      شاهنشاهی ساسانی از ۲۲۴ تا ۶۵۱ میلادی در ایران حکومت کرد
+      و یکی از قدرت‌های مهم خاور نزدیک و رقیب روم بود.
+    `;
+  }
+
+  else{
+    response=`
+      🤔 درباره این سؤال اطلاعات کافی در دانشنامه آفلاین من وجود ندارد.<br><br>
+      پیشنهاد می‌کنم نام یک شخصیت، حکومت، جنگ یا تمدن را جستجو کنی.
+    `;
+  }
+
+  answer.innerHTML=response;
 }
 
 
-/* =====================================================
-   ENTER KEY
-===================================================== */
+/* =========================
+   TIMELINE
+========================= */
 
-document.getElementById(
-    "searchInput"
-).addEventListener(
-    "keydown",
-    function(event){
+function filterTimeline(cat,button){
+  document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+  button.classList.add("active");
 
-        if(event.key === "Enter"){
+  const data=cat==="all"
+    ?timelineData
+    :timelineData.filter(x=>x.cat===cat);
 
-            searchHistory();
+  document.getElementById("timelineList").innerHTML=data.map(x=>`
+    <div class="timeline-item">
+      <div class="timeline-year">${x.year}</div>
+      <h3>${x.title}</h3>
+      <p>${x.text}</p>
+    </div>
+  `).join("");
+}
 
-        }
 
+/* =========================
+   MAP
+========================= */
+
+function mapInfo(place){
+  const data={
+    "ایران باستان":"🇮🇷 ایران باستان محل شکل‌گیری تمدن‌ها و شاهنشاهی‌های مهمی مانند هخامنشیان و ساسانیان بود.",
+    "روم":"🏛️ روم از مهم‌ترین قدرت‌های جهان مدیترانه و اروپا در دوران باستان بود.",
+    "مصر باستان":"🔺 تمدن مصر باستان در امتداد رود نیل شکل گرفت.",
+    "یونان":"🏺 یونان باستان مرکز مهم فلسفه، هنر، سیاست و علوم بود."
+  };
+
+  document.getElementById("mapInfo").innerHTML=
+    `<div class="card"><h3>${place}</h3><p>${data[place]}</p></div>`;
+}
+
+
+/* =========================
+   TIME MACHINE
+========================= */
+
+function timeMachine(){
+  const year=Number(document.getElementById("yearInput").value);
+  const result=document.getElementById("timeResult");
+
+  if(!year){
+    result.innerHTML="⚠️ یک سال وارد کن.";
+    return;
+  }
+
+  markMission({id:"time"});
+
+  let text="";
+
+  if(year>=550 && year<=330){
+    text=`
+      <h3>🏛️ دوران هخامنشی</h3>
+      <p>
+      این بازه با دوران شاهنشاهی هخامنشی ارتباط دارد.
+      قدرت سیاسی ایران در بخش بزرگی از جهان باستان گسترش یافته بود.
+      </p>
+    `;
+  }
+
+  else if(year>=224 && year<=651){
+    text=`
+      <h3>🦁 دوران ساسانی</h3>
+      <p>
+      شاهنشاهی ساسانی در ایران قدرت داشت و یکی از رقبای مهم روم بود.
+      </p>
+    `;
+  }
+
+  else if(year>=1501 && year<=1736){
+    text=`
+      <h3>🕌 دوران صفوی</h3>
+      <p>
+      حکومت صفوی در ایران برقرار بود و ساختار سیاسی ایران را دگرگون کرد.
+      </p>
+    `;
+  }
+
+  else if(year>=1914 && year<=1918){
+    text=`
+      <h3>⚔️ جنگ جهانی اول</h3>
+      <p>
+      جهان درگیر جنگ جهانی اول بود.
+      </p>
+    `;
+  }
+
+  else if(year>=1939 && year<=1945){
+    text=`
+      <h3>🌍 جنگ جهانی دوم</h3>
+      <p>
+      جنگ جهانی دوم در جریان بود.
+      </p>
+    `;
+  }
+
+  else{
+    text=`
+      <h3>🕰️ سال ${year}</h3>
+      <p>
+      این سال فعلاً در پایگاه داده جزئیات اختصاصی ندارد.
+      می‌توانیم در آینده اطلاعات این دوره را به ماشین زمان اضافه کنیم.
+      </p>
+    `;
+  }
+
+  result.innerHTML=`<div class="card">${text}</div>`;
+  updateStats();
+}
+
+
+/* =========================
+   QUIZ
+========================= */
+
+let quizIndex=0;
+let quizScore=0;
+
+function startQuiz(){
+  quizIndex=0;
+  quizScore=0;
+  renderQuiz();
+}
+
+function renderQuiz(){
+  const area=document.getElementById("quizArea");
+
+  if(quizIndex>=quizQuestions.length){
+    const old=Number(localStorage.getItem("seday_best_score")||0);
+
+    if(quizScore>old){
+      localStorage.setItem("seday_best_score",quizScore);
     }
-);
+
+    markMission({id:"quiz"});
+
+    area.innerHTML=`
+      <div class="card">
+        <h2>🎉 آزمون تمام شد!</h2>
+        <p>امتیاز تو: <b>${quizScore} از ${quizQuestions.length}</b></p>
+        <button class="btn btn-primary" onclick="startQuiz()">دوباره امتحان کن</button>
+      </div>
+    `;
+
+    updateStats();
+    return;
+  }
+
+  const q=quizQuestions[quizIndex];
+  const percent=(quizIndex/quizQuestions.length)*100;
+
+  area.innerHTML=`
+    <div class="progress"><span style="width:${percent}%"></span></div>
+
+    <div class="progress-text">
+      سؤال ${quizIndex+1} از ${quizQuestions.length}
+    </div>
+
+    <div class="question">${q.q}</div>
+
+    <div class="options">
+      ${q.options.map((opt,i)=>`
+        <button class="option" onclick="answerQuiz(${i})">
+          ${opt}
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function answerQuiz(index){
+  const q=quizQuestions[quizIndex];
+
+  document.querySelectorAll(".option").forEach((btn,i)=>{
+    if(i===q.answer)btn.classList.add("correct");
+    if(i===index && index!==q.answer)btn.classList.add("wrong");
+    btn.disabled=true;
+  });
+
+  if(index===q.answer)quizScore++;
+
+  setTimeout(()=>{
+    quizIndex++;
+    renderQuiz();
+  },700);
+}
 
 
-document.getElementById(
-    "aiInput"
-).addEventListener(
-    "keydown",
-    function(event){
+/* =========================
+   ENCYCLOPEDIA
+========================= */
 
-        if(event.key === "Enter"){
+function renderEncyclopedia(){
+  const q=document.getElementById("encySearch").value.toLowerCase().trim();
 
-            askAI();
+  const data=q
+    ?encyclopediaData.filter(x=>
+      (x.title+" "+x.text+" "+x.year).toLowerCase().includes(q)
+    )
+    :encyclopediaData;
 
-        }
-
-    }
-);
-
-
-/* =====================================================
-   INITIAL LOAD
-===================================================== */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    async function(){
-
-        /*
-           پادکست‌های Backend را
-           برای همه کاربران دریافت کن.
-        */
-
-        await loadPublicPodcasts();
+  document.getElementById("encyGrid").innerHTML=data.map(item=>`
+    <div class="card clickable" onclick="openDetail('${item.id}')">
+      <div class="card-icon">${item.icon||"📚"}</div>
+      <span class="eyebrow">${item.year}</span>
+      <h3>${item.title}</h3>
+      <p>${item.text}</p>
+    </div>
+  `).join("");
+}
 
 
-        /*
-           اگر توکن قبلی وجود داشته باشد،
-           اعتبار آن را بررسی کن.
-        */
+/* =========================
+   MISSIONS
+========================= */
 
-        if(adminToken){
+function getMissions(){
+  return JSON.parse(localStorage.getItem("seday_missions")||"[]");
+}
 
-            checkAdminSession();
+function markMission(item){
+  let missions=getMissions();
 
-        }
+  let id=item.id;
 
-    }
-);
+  const mapping={
+    cyrus:"iran",
+    achaemenid:"iran",
+    sassanid:"iran",
+    safavid:"iran",
+    persepolis:"iran",
+    medes:"iran",
+    rome:"world",
+    egypt:"world",
+    greece:"world",
+    alexander:"world",
+    china:"world",
+    mesopotamia:"world",
+    ww1:"war",
+    ww2:"war",
+    peloponnesian:"war",
+    "greco-persian":"war",
+    "roman-persian":"war",
+    achaemenidEmpire:"empire",
+    romanEmpire:"empire",
+    mongol:"empire",
+    ottoman:"empire",
+    sassanidEmpire:"empire"
+  };
+
+  id=mapping[id]||id;
+
+  if(missionsData.some(x=>x.id===id) && !missions.includes(id)){
+    missions.push(id);
+    localStorage.setItem("seday_missions",JSON.stringify(missions));
+    renderMissions();
+  }
+}
+
+function renderMissions(){
+  const done=getMissions();
+
+  document.getElementById("missionGrid").innerHTML=missionsData.map(m=>{
+    const complete=done.includes(m.id);
+
+    return `
+      <div class="card">
+        <div class="card-icon">${complete?"🏆":"🎯"}</div>
+        <h3>${m.title}</h3>
+        <p>${m.desc}</p>
+
+        <div class="mission-progress">
+          <div class="progress">
+            <span style="width:${complete?100:0}%"></span>
+          </div>
+
+          <div class="progress-text">
+            ${complete?"تکمیل شد ✓":"در انتظار انجام"}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  updateStats();
+}
+
+
+/* =========================
+   PODCAST LOCAL ADMIN
+========================= */
+
+const defaultPodcasts=[
+  {
+    title:"کوروش بزرگ؛ آغاز یک شاهنشاهی",
+    desc:"یک اپیزود آزمایشی درباره کوروش بزرگ.",
+    audio:""
+  },
+  {
+    title:"جنگ جهانی دوم؛ جهان در آتش",
+    desc:"نگاهی کوتاه به یکی از مهم‌ترین جنگ‌های تاریخ.",
+    audio:""
+  },
+  {
+    title:"تخت جمشید؛ شهر پارسیان",
+    desc:"داستان یکی از مشهورترین آثار ایران باستان.",
+    audio:""
+  }
+];
+
+function getPodcasts(){
+  const saved=localStorage.getItem("seday_podcasts");
+
+  if(saved){
+    return JSON.parse(saved);
+  }
+
+  return defaultPodcasts;
+}
+
+function renderPodcasts(){
+  const data=getPodcasts();
+
+  document.getElementById("podcastGrid").innerHTML=data.map((p,i)=>`
+    <div class="card podcast">
+      <div class="card-icon">🎙️</div>
+      <span class="eyebrow">EPISODE ${i+1}</span>
+      <h3>${escapeHTML(p.title)}</h3>
+      <p>${escapeHTML(p.desc)}</p>
+
+      ${
+        p.audio
+        ?`<audio class="audio" controls src="${escapeAttribute(p.audio)}"></audio>`
+        :`<div class="progress-text">🎧 فایل صوتی هنوز اضافه نشده است.</div>`
+      }
+    </div>
+  `).join("");
+}
+
+function addPodcast(){
+  const title=document.getElementById("podTitle").value.trim();
+  const desc=document.getElementById("podDesc").value.trim();
+  const audio=document.getElementById("podAudio").value.trim();
+
+  if(!title){
+    alert("عنوان پادکست را وارد کن.");
+    return;
+  }
+
+  let data=getPodcasts();
+
+  if(data===defaultPodcasts){
+    data=[...defaultPodcasts];
+  }
+
+  data.push({title,desc,audio});
+
+  localStorage.setItem("seday_podcasts",JSON.stringify(data));
+
+  document.getElementById("podTitle").value="";
+  document.getElementById("podDesc").value="";
+  document.getElementById("podAudio").value="";
+
+  renderPodcasts();
+
+  alert("پادکست در مرورگر ذخیره شد. 🎙️");
+}
+
+function clearPodcasts(){
+  if(confirm("پادکست‌های محلی حذف شوند؟")){
+    localStorage.removeItem("seday_podcasts");
+    renderPodcasts();
+  }
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+function updateStats(){
+  document.getElementById("favCount").textContent=getFavorites().length;
+  document.getElementById("missionCount").textContent=getMissions().length;
+  document.getElementById("bestScore").textContent=
+    localStorage.getItem("seday_best_score")||0;
+}
+
+
+/* =========================
+   SECURITY / HTML
+========================= */
+
+function escapeHTML(text){
+  return String(text||"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function escapeAttribute(text){
+  return String(text||"").replaceAll('"',"&quot;");
+}
+
+
+/* =========================
+   INIT
+========================= */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+  renderCards(iranData,"iranGrid");
+  renderCards(worldData,"worldGrid");
+  renderCards(warsData,"warsGrid");
+  renderCards(empiresData,"empiresGrid");
+  renderCards(figuresData,"figuresGrid");
+
+  renderPodcasts();
+
+  filterTimeline("all",document.querySelector(".filter"));
+
+  renderEncyclopedia();
+
+  renderMissions();
+
+  startQuiz();
+
+  updateStats();
+
+});
 
 </script>
 
 </body>
+    </html>
