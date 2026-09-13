@@ -2012,7 +2012,2807 @@ document.addEventListener("DOMContentLoaded",()=>{
   updateStats();
 
 });
+/* =========================================================
+   🏛️ SEDAY TARIKH — MEGA HISTORY COMMAND CENTER
+   نسخه الحاقی — امکانات قبلی حذف نمی‌شوند
+========================================================= */
 
+(function () {
+  "use strict";
+
+  /* =====================================================
+     STORAGE
+  ===================================================== */
+
+  const HT = {
+    xp: "seday_ht_xp",
+    profile: "seday_ht_profile",
+    notes: "seday_ht_notes",
+    recent: "seday_ht_recent",
+    badges: "seday_ht_badges",
+    quiz: "seday_ht_quiz",
+    notifications: "seday_ht_notifications"
+  };
+
+  const read = (key, fallback) => {
+    try {
+      const x = localStorage.getItem(key);
+      return x ? JSON.parse(x) : fallback;
+    } catch {
+      return fallback;
+    }
+  };
+
+  const write = (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  };
+
+  const esc = (value) => {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  };
+
+  /* =====================================================
+     DATA
+  ===================================================== */
+
+  const HT_DATA = {
+
+    periods: [
+      {
+        id: "achaemenid",
+        title: "هخامنشیان",
+        years: "۵۵۰ تا ۳۳۰ ق.م.",
+        civilization: "ایران باستان",
+        capital: "پارسه / تخت جمشید",
+        description:
+          "یکی از مهم‌ترین شاهنشاهی‌های جهان باستان که از فلات ایران گسترش یافت."
+      },
+      {
+        id: "rome",
+        title: "امپراتوری روم",
+        years: "۲۷ ق.م. تا ۴۷۶ م.",
+        civilization: "رومی",
+        capital: "رم",
+        description:
+          "یکی از قدرتمندترین حکومت‌های جهان مدیترانه با ساختار اداری و نظامی گسترده."
+      },
+      {
+        id: "sassanid",
+        title: "ساسانیان",
+        years: "۲۲۴ تا ۶۵۱ م.",
+        civilization: "ایران باستان",
+        capital: "تیسفون",
+        description:
+          "آخرین شاهنشاهی بزرگ ایران پیش از فتح عربی."
+      },
+      {
+        id: "islamic",
+        title: "دوران اسلامی",
+        years: "از سده هفتم میلادی",
+        civilization: "تمدن‌های اسلامی",
+        capital: "متغیر",
+        description:
+          "دوره‌ای گسترده با حکومت‌ها، دانشمندان و مراکز علمی متعدد."
+      }
+    ],
+
+    places: [
+      {
+        name: "تخت جمشید",
+        region: "فارس، ایران",
+        periods: "هخامنشی",
+        importance: "مرکز تشریفاتی شاهنشاهی هخامنشی",
+        related: ["کوروش بزرگ", "داریوش یکم", "خشایارشا"]
+      },
+      {
+        name: "پاسارگاد",
+        region: "فارس، ایران",
+        periods: "هخامنشی",
+        importance: "پایتخت نخستین هخامنشیان و محل آرامگاه کوروش",
+        related: ["کوروش بزرگ"]
+      },
+      {
+        name: "بابل",
+        region: "بین‌النهرین",
+        periods: "باستان",
+        importance: "یکی از مهم‌ترین مراکز شهری جهان باستان",
+        related: ["هخامنشیان", "تمدن بین‌النهرین"]
+      },
+      {
+        name: "رم",
+        region: "ایتالیا",
+        periods: "روم",
+        importance: "مرکز سیاسی و تاریخی جهان روم",
+        related: ["ژولیوس سزار", "آگوستوس"]
+      }
+    ],
+
+    civilizations: [
+      {
+        name: "هخامنشی",
+        language: "پارسی باستان و زبان‌های اداری منطقه",
+        culture: "چندفرهنگی و چندزبانه",
+        economy: "کشاورزی، مالیات، تجارت و راه‌های ارتباطی",
+        army: "ارتش چندقومیتی",
+        architecture: "تخت جمشید، پاسارگاد و مجموعه‌های سلطنتی",
+        territory: "از بخش‌هایی از آسیای مرکزی تا مصر و آناتولی",
+        achievements: "اداره یک شاهنشاهی چندقومیتی، شبکه راه‌ها و سازمان اداری"
+      },
+      {
+        name: "روم",
+        language: "لاتین و یونانی در بخش‌هایی از امپراتوری",
+        culture: "حقوق، شهرنشینی و معماری",
+        economy: "کشاورزی، مالیات و تجارت مدیترانه‌ای",
+        army: "لژیون‌های سازمان‌یافته",
+        architecture: "جاده‌ها، پل‌ها، آمفی‌تئاترها و آب‌رسانی",
+        territory: "بخش بزرگی از مدیترانه و اروپا",
+        achievements: "حقوق، مهندسی و سازمان شهری"
+      },
+      {
+        name: "مصر باستان",
+        language: "زبان مصری باستان",
+        culture: "دین، هنر و نظام اداری",
+        economy: "کشاورزی وابسته به نیل",
+        army: "نیروهای زمینی و ارابه‌ها در دوره‌های مختلف",
+        architecture: "اهرام، معابد و مقابر",
+        territory: "دره و دلتای نیل",
+        achievements: "خط هیروگلیف، معماری monumental و دانش تقویمی"
+      }
+    ],
+
+    battles: [
+      {
+        name: "نبرد ماراتن",
+        date: "۴۹۰ ق.م.",
+        sideA: "ایرانیان هخامنشی",
+        sideB: "آتن",
+        commanders: "داتیس و آرتافرنه / فرماندهان آتنی",
+        result: "پیروزی آتن",
+        note: "بازسازی آموزشی بر اساس اطلاعات تاریخی موجود."
+      },
+      {
+        name: "نبرد ترموپیل",
+        date: "۴۸۰ ق.م.",
+        sideA: "هخامنشیان",
+        sideB: "نیروهای یونانی",
+        commanders: "خشایارشا / لئونیداس",
+        result: "پیروزی نیروهای هخامنشی",
+        note: "نتیجه تاریخی؛ شبیه‌ساز سایت صرفاً آموزشی است."
+      },
+      {
+        name: "نبرد گائوگاملا",
+        date: "۳۳۱ ق.م.",
+        sideA: "هخامنشیان",
+        sideB: "مقدونیان",
+        commanders: "داریوش سوم / اسکندر",
+        result: "پیروزی مقدونیان",
+        note: "نتیجه تاریخی شناخته‌شده."
+      }
+    ],
+
+    rulers: [
+      { name: "کوروش بزرگ", period: "هخامنشی", years: "حدود ۵۵۹–۵۳۰ ق.م." },
+      { name: "داریوش یکم", period: "هخامنشی", years: "۵۲۲–۴۸۶ ق.م." },
+      { name: "خشایارشا", period: "هخامنشی", years: "۴۸۶–۴۶۵ ق.م." },
+      { name: "داریوش سوم", period: "هخامنشی", years: "۳۳۶–۳۳۰ ق.م." },
+      { name: "آگوستوس", period: "روم", years: "۲۷ ق.م.–۱۴ م." }
+    ],
+
+    timeline: [
+      { year: -550, title: "ظهور شاهنشاهی هخامنشی", type: "ایران" },
+      { year: -522, title: "آغاز فرمانروایی داریوش یکم", type: "ایران" },
+      { year: -490, title: "نبرد ماراتن", type: "جنگ" },
+      { year: -480, title: "نبرد ترموپیل و سالامیس", type: "جنگ" },
+      { year: -330, title: "پایان شاهنشاهی هخامنشی", type: "ایران" },
+      { year: -27, title: "آغاز دوره امپراتوری روم", type: "جهان" },
+      { year: 224, title: "آغاز شاهنشاهی ساسانی", type: "ایران" },
+      { year: 476, title: "سقوط امپراتوری روم غربی", type: "جهان" }
+    ],
+
+    worldYears: [
+      {
+        min: -600,
+        max: -500,
+        title: "جهان در سده ششم پیش از میلاد",
+        rulers: ["کوروش بزرگ", "فرمانروایان دولت‌شهرهای یونانی"],
+        civilizations: ["هخامنشی", "یونانی", "مصر", "چین باستان"],
+        wars: ["درگیری‌های منطقه‌ای یونان و ایران"],
+        regions: ["ایران", "آناتولی", "بین‌النهرین", "یونان"],
+        events: ["گسترش قدرت هخامنشیان"]
+      },
+      {
+        min: -500,
+        max: -400,
+        title: "جهان در سده پنجم پیش از میلاد",
+        rulers: ["داریوش یکم", "خشایارشا"],
+        civilizations: ["هخامنشی", "یونانی", "چین باستان"],
+        wars: ["جنگ‌های ایران و یونان"],
+        regions: ["ایران", "یونان", "مصر", "آناتولی"],
+        events: ["ماراتن", "ترموپیل", "سالامیس"]
+      },
+      {
+        min: -400,
+        max: -300,
+        title: "جهان در سده چهارم پیش از میلاد",
+        rulers: ["داریوش سوم", "اسکندر مقدونی"],
+        civilizations: ["هخامنشی", "مقدونی", "یونانی"],
+        wars: ["جنگ‌های اسکندر"],
+        regions: ["ایران", "مقدونیه", "مصر", "بین‌النهرین"],
+        events: ["گسترش امپراتوری اسکندر", "پایان هخامنشیان"]
+      }
+    ],
+
+    comparisons: {
+      "هخامنشیان": {
+        period: "۵۵۰–۳۳۰ ق.م.",
+        territory: "بسیار گسترده در غرب آسیا، مصر و بخش‌هایی از آسیای مرکزی",
+        politics: "شاهنشاهی چندقومیتی با ساتراپی‌ها",
+        army: "ارتش چندقومیتی و نیروهای متحد",
+        culture: "چندفرهنگی و چندزبانه",
+        figures: "کوروش، داریوش، خشایارشا"
+      },
+      "روم": {
+        period: "۲۷ ق.م.–۴۷۶ م. در غرب",
+        territory: "بخش بزرگی از مدیترانه و اروپا",
+        politics: "امپراتوری متمرکز با ساختار اداری گسترده",
+        army: "لژیون‌های حرفه‌ای و سازمان‌یافته",
+        culture: "رومی، یونانی و فرهنگ‌های محلی",
+        figures: "آگوستوس، ژولیوس سزار"
+      },
+      "ساسانیان": {
+        period: "۲۲۴–۶۵۱ م.",
+        territory: "ایران و مناطق پیرامونی",
+        politics: "شاهنشاهی متمرکز",
+        army: "سواره‌نظام سنگین و نیروهای متنوع",
+        culture: "ایرانی و زرتشتی با تعامل گسترده فرهنگی",
+        figures: "اردشیر یکم، شاپور یکم، خسرو یکم"
+      }
+    }
+  };
+
+  /* =====================================================
+     XP
+  ===================================================== */
+
+  function getXP() {
+    return Number(localStorage.getItem(HT.xp) || 0);
+  }
+
+  function addXP(amount, reason) {
+    const old = getXP();
+    localStorage.setItem(HT.xp, old + amount);
+
+    if (reason) {
+      htToast("✨ +" + amount + " XP — " + reason);
+    }
+
+    htCheckBadges();
+    htRefresh();
+  }
+
+  function getLevel() {
+    return Math.floor(getXP() / 100) + 1;
+  }
+
+  function getRank() {
+    const xp = getXP();
+
+    if (xp >= 2500) return ["🏆", "افسانه تاریخ"];
+    if (xp >= 1500) return ["🟠", "استاد تاریخ"];
+    if (xp >= 800) return ["🟣", "تاریخ‌دان"];
+    if (xp >= 300) return ["🔵", "پژوهشگر"];
+
+    return ["🟢", "تازه‌کار"];
+  }
+
+  /* =====================================================
+     PROFILE
+  ===================================================== */
+
+  function getProfile() {
+    return read(HT.profile, {
+      name: "کاوشگر تاریخ",
+      avatar: "🏛️"
+    });
+  }
+
+  function saveProfile() {
+    const name = document.getElementById("htProfileName");
+    const avatar = document.getElementById("htProfileAvatar");
+
+    if (!name || !avatar) return;
+
+    write(HT.profile, {
+      name: name.value.trim() || "کاوشگر تاریخ",
+      avatar: avatar.value.trim() || "🏛️"
+    });
+
+    htToast("👤 پروفایل ذخیره شد");
+    htRefresh();
+  }
+
+  /* =====================================================
+     RECENT
+  ===================================================== */
+
+  function addRecent(title, type) {
+    let list = read(HT.recent, []);
+
+    list = list.filter(x => x.title !== title);
+
+    list.unshift({
+      title,
+      type,
+      time: Date.now()
+    });
+
+    write(HT.recent, list.slice(0, 30));
+  }
+
+  /* =====================================================
+     BADGES
+  ===================================================== */
+
+  function getBadges() {
+    return read(HT.badges, []);
+  }
+
+  function unlockBadge(id, title, description) {
+    let badges = getBadges();
+
+    if (badges.some(x => x.id === id)) return;
+
+    badges.push({
+      id,
+      title,
+      description,
+      date: new Date().toLocaleDateString("fa-IR")
+    });
+
+    write(HT.badges, badges);
+
+    htToast("🏅 نشان جدید: " + title);
+  }
+
+  function htCheckBadges() {
+    const xp = getXP();
+    const recent = read(HT.recent, []);
+
+    if (xp >= 100) {
+      unlockBadge(
+        "first100",
+        "شروع سفر تاریخی",
+        "کسب ۱۰۰ XP"
+      );
+    }
+
+    if (xp >= 500) {
+      unlockBadge(
+        "researcher",
+        "پژوهشگر واقعی",
+        "کسب ۵۰۰ XP"
+      );
+    }
+
+    if (recent.length >= 5) {
+      unlockBadge(
+        "explorer",
+        "کاوشگر تاریخ",
+        "کشف پنج مطلب تاریخی"
+      );
+    }
+
+    if (recent.filter(x => x.type === "empire").length >= 5) {
+      unlockBadge(
+        "ruler",
+        "فرمانروای تاریخ",
+        "کشف پنج امپراتوری"
+      );
+    }
+  }
+
+  /* =====================================================
+     FAVORITES
+  ===================================================== */
+
+  function getFavoritesSafe() {
+    try {
+      if (typeof getFavorites === "function") {
+        return getFavorites();
+      }
+    } catch {}
+
+    return read("seday_favorites", []);
+  }
+
+  /* =====================================================
+     TODAY
+  ===================================================== */
+
+  function todayEvents() {
+    const d = new Date();
+    const month = d.getMonth() + 1;
+    const day = d.getDate();
+
+    const events = {
+      "1-1": ["آغاز سال میلادی", "فرصتی برای مرور رویدادهای تاریخی سال‌های مختلف."],
+      "2-11": ["انقلاب ۱۳۵۷ ایران", "رویداد مهمی در تاریخ معاصر ایران."],
+      "3-20": ["آغاز نوروز", "نوروز یکی از کهن‌ترین جشن‌های ایرانی است."],
+      "9-13": ["کاوش امروز در تاریخ", "امروز می‌توانی یک سال تاریخی را با ماشین زمان بررسی کنی."],
+      "12-25": ["مرور تاریخ", "پایان سال فرصتی برای مرور اتفاقات تاریخی است."]
+    };
+
+    return events[month + "-" + day] || [
+      "امروز در تاریخ",
+      "برای این روز هنوز رویداد اختصاصی در پایگاه داده نمایشی سایت ثبت نشده است."
+    ];
+  }
+
+  /* =====================================================
+     TIME MACHINE
+  ===================================================== */
+
+  function timeMachine() {
+    const input = document.getElementById("htYearInput");
+    if (!input) return;
+
+    const year = Number(input.value);
+
+    if (!Number.isFinite(year)) {
+      htToast("⚠️ یک سال معتبر وارد کن");
+      return;
+    }
+
+    let era = "دوره‌ای که داده دقیق آن هنوز در پایگاه نمایشی ثبت نشده است.";
+
+    if (year <= -550 && year > -330) {
+      era = "دوره هخامنشی";
+    } else if (year <= -330 && year > -27) {
+      era = "دوره هلنیستی و حکومت‌های پس از اسکندر";
+    } else if (year <= -27 && year < 476) {
+      era = "دوره روم باستان";
+    } else if (year >= 224 && year <= 651) {
+      era = "دوره ساسانی";
+    }
+
+    const data = HT_DATA.worldYears.find(
+      x => year >= x.min && year < x.max
+    );
+
+    const result = data || {
+      title: "جهان در سال " + year,
+      rulers: ["اطلاعات فرمانروایان این سال در پایگاه فعلی کامل نیست"],
+      civilizations: [era],
+      wars: ["داده جنگی ثبت‌شده برای این سال موجود نیست"],
+      regions: ["برای کشف مناطق، از نقشه تاریخی استفاده کن"],
+      events: ["این سال برای توسعه دانشنامه آماده است"]
+    };
+
+    const box = document.getElementById("htTimeResult");
+
+    box.innerHTML = `
+      <div class="ht-year-title">
+        🕰️ ${esc(result.title)}
+      </div>
+
+      <div class="ht-year-grid">
+
+        <div class="ht-mini">
+          <b>👑 فرمانروایان</b>
+          ${result.rulers.map(x => `<span>${esc(x)}</span>`).join("")}
+        </div>
+
+        <div class="ht-mini">
+          <b>🏛️ تمدن‌ها</b>
+          ${result.civilizations.map(x => `<span>${esc(x)}</span>`).join("")}
+        </div>
+
+        <div class="ht-mini">
+          <b>⚔️ جنگ‌ها</b>
+          ${result.wars.map(x => `<span>${esc(x)}</span>`).join("")}
+        </div>
+
+        <div class="ht-mini">
+          <b>📍 مناطق</b>
+          ${result.regions.map(x => `<span>${esc(x)}</span>`).join("")}
+        </div>
+
+        <div class="ht-mini">
+          <b>📅 اتفاقات</b>
+          ${result.events.map(x => `<span>${esc(x)}</span>`).join("")}
+        </div>
+
+        <div class="ht-mini">
+          <b>🌍 وضعیت جهان</b>
+          <span>${esc(era)}</span>
+        </div>
+
+      </div>
+    `;
+
+    addXP(15, "سفر با ماشین زمان");
+  }
+
+  /* =====================================================
+     WORLD IN YEAR
+  ===================================================== */
+
+  function worldInYear() {
+    const input = document.getElementById("htWorldYear");
+    if (!input) return;
+
+    const year = Number(input.value);
+
+    if (!Number.isFinite(year)) {
+      htToast("سال معتبر وارد کن");
+      return;
+    }
+
+    const fake = {
+      rulers: HT_DATA.rulers.filter(r => {
+        const match = r.years.match(/-?\d+/g);
+        return match && year >= Number(match[0]) && year <= Number(match[1] || match[0]);
+      }),
+      civilizations: HT_DATA.civilizations.map(x => x.name),
+      battles: HT_DATA.battles.filter(x => {
+        const y = Number(x.date.replace(/[^\d-]/g, ""));
+        return Math.abs(Math.abs(year) - Math.abs(y)) <= 20;
+      }),
+      regions: HT_DATA.places.map(x => x.name)
+    };
+
+    document.getElementById("htWorldResult").innerHTML = `
+      <h3>🌐 جهان در سال ${esc(year)}</h3>
+
+      <div class="ht-world-grid">
+        <div>
+          <b>👑 فرمانروایان</b>
+          ${fake.rulers.length
+            ? fake.rulers.map(x => `<p>${esc(x.name)}</p>`).join("")
+            : "<p>اطلاعات محدود</p>"}
+        </div>
+
+        <div>
+          <b>🏛️ تمدن‌ها</b>
+          ${fake.civilizations.map(x => `<p>${esc(x)}</p>`).join("")}
+        </div>
+
+        <div>
+          <b>⚔️ جنگ‌ها</b>
+          ${fake.battles.length
+            ? fake.battles.map(x => `<p>${esc(x.name)}</p>`).join("")
+            : "<p>مورد نزدیک پیدا نشد</p>"}
+        </div>
+
+        <div>
+          <b>📍 مناطق</b>
+          ${fake.regions.map(x => `<p>${esc(x)}</p>`).join("")}
+        </div>
+      </div>
+    `;
+
+    addXP(20, "بررسی جهان در یک سال");
+  }
+
+  /* =====================================================
+     HISTORICAL MAP
+  ===================================================== */
+
+  function renderMap() {
+    const target = document.getElementById("htMap");
+
+    if (!target) return;
+
+    target.innerHTML = `
+      <div class="ht-map-surface">
+
+        <div class="ht-map-title">
+          🗺️ نقشه تاریخی تعاملی
+        </div>
+
+        <button class="ht-map-point p1"
+          onclick="HistoryUpgrade.mapPlace('تخت جمشید')">
+          📍 ایران
+        </button>
+
+        <button class="ht-map-point p2"
+          onclick="HistoryUpgrade.mapPlace('بابل')">
+          📍 بابل
+        </button>
+
+        <button class="ht-map-point p3"
+          onclick="HistoryUpgrade.mapPlace('رم')">
+          📍 روم
+        </button>
+
+        <button class="ht-map-point p4"
+          onclick="HistoryUpgrade.mapPlace('مصر')">
+          📍 مصر
+        </button>
+
+        <div id="htMapInfo" class="ht-map-info">
+          یک نقطه تاریخی را انتخاب کن.
+        </div>
+
+      </div>
+    `;
+  }
+
+  function mapPlace(name) {
+    const item = HT_DATA.places.find(
+      x => x.name === name
+    );
+
+    const info = document.getElementById("htMapInfo");
+
+    if (!info) return;
+
+    if (!item) {
+      info.innerHTML = `
+        <h3>${esc(name)}</h3>
+        <p>اطلاعات این منطقه در پایگاه نمایشی کامل نشده است.</p>
+      `;
+      return;
+    }
+
+    info.innerHTML = `
+      <h3>📍 ${esc(item.name)}</h3>
+      <p><b>منطقه:</b> ${esc(item.region)}</p>
+      <p><b>دوره:</b> ${esc(item.periods)}</p>
+      <p><b>اهمیت:</b> ${esc(item.importance)}</p>
+      <p><b>مرتبط:</b> ${item.related.map(esc).join("، ")}</p>
+
+      <button onclick="HistoryUpgrade.search('${esc(item.name)}')">
+        📚 جستجو در دانشنامه
+      </button>
+    `;
+
+    addRecent(name, "place");
+    addXP(10, "کشف یک مکان تاریخی");
+  }
+
+  /* =====================================================
+     CIVILIZATION BUILDER
+  ===================================================== */
+
+  function civilizationBuilder() {
+    const select = document.getElementById("htCivilization");
+
+    if (!select) return;
+
+    const item = HT_DATA.civilizations.find(
+      x => x.name === select.value
+    );
+
+    if (!item) return;
+
+    document.getElementById("htCivilizationResult").innerHTML = `
+      <h3>🏛️ ${esc(item.name)}</h3>
+
+      <div class="ht-info-grid">
+        <div>🗣️ <b>زبان</b><p>${esc(item.language)}</p></div>
+        <div>🎭 <b>فرهنگ</b><p>${esc(item.culture)}</p></div>
+        <div>💰 <b>اقتصاد</b><p>${esc(item.economy)}</p></div>
+        <div>⚔️ <b>ارتش</b><p>${esc(item.army)}</p></div>
+        <div>🏗️ <b>معماری</b><p>${esc(item.architecture)}</p></div>
+        <div>🗺️ <b>قلمرو</b><p>${esc(item.territory)}</p></div>
+        <div>🏆 <b>دستاوردها</b><p>${esc(item.achievements)}</p></div>
+      </div>
+    `;
+
+    addXP(15, "کشف یک تمدن");
+  }
+
+  /* =====================================================
+     HISTORICAL COMPARISON
+  ===================================================== */
+
+  function compareHistory() {
+    const a = document.getElementById("htCompareA").value;
+    const b = document.getElementById("htCompareB").value;
+
+    const A = HT_DATA.comparisons[a];
+    const B = HT_DATA.comparisons[b];
+
+    if (!A || !B) return;
+
+    const fields = [
+      ["دوره", "period"],
+      ["قلمرو", "territory"],
+      ["ساختار سیاسی", "politics"],
+      ["ارتش", "army"],
+      ["فرهنگ", "culture"],
+      ["شخصیت‌های مهم", "figures"]
+    ];
+
+    document.getElementById("htCompareResult").innerHTML = `
+      <div class="ht-compare-table">
+
+        <div class="ht-compare-head">
+          <div>ویژگی</div>
+          <div>🏛️ ${esc(a)}</div>
+          <div>🏛️ ${esc(b)}</div>
+        </div>
+
+        ${fields.map(([label, key]) => `
+          <div class="ht-compare-row">
+            <b>${label}</b>
+            <span>${esc(A[key])}</span>
+            <span>${esc(B[key])}</span>
+          </div>
+        `).join("")}
+
+      </div>
+    `;
+
+    addXP(15, "انجام مقایسه تاریخی");
+  }
+
+  /* =====================================================
+     BATTLE SIMULATOR
+  ===================================================== */
+
+  function battleSimulator() {
+    const a = document.getElementById("htBattleA").value;
+    const b = document.getElementById("htBattleB").value;
+
+    const battle = HT_DATA.battles.find(
+      x =>
+        (x.sideA.includes(a) && x.sideB.includes(b)) ||
+        (x.sideA.includes(b) && x.sideB.includes(a))
+    );
+
+    if (battle) {
+      document.getElementById("htBattleResult").innerHTML = `
+        <div class="ht-battle-result">
+          <h3>⚔️ ${esc(battle.name)}</h3>
+          <p><b>طرف اول:</b> ${esc(battle.sideA)}</p>
+          <p><b>طرف دوم:</b> ${esc(battle.sideB)}</p>
+          <p><b>فرماندهان:</b> ${esc(battle.commanders)}</p>
+          <p><b>نتیجه تاریخی:</b> ${esc(battle.result)}</p>
+          <small>🎓 ${esc(battle.note)}</small>
+        </div>
+      `;
+    } else {
+      document.getElementById("htBattleResult").innerHTML = `
+        <div class="ht-battle-result">
+          <h3>⚔️ بازسازی آموزشی</h3>
+          <p>
+            برای این ترکیب، داده کافی در پایگاه فعلی وجود ندارد.
+            نتیجه ساختگی به‌عنوان «نتیجه تاریخی» نمایش داده نمی‌شود.
+          </p>
+          <small>
+            ⚠️ این ابزار آموزشی است و نتیجه فرضی آن پیش‌بینی واقعی جنگ نیست.
+          </small>
+        </div>
+      `;
+    }
+
+    addXP(20, "بررسی نبرد تاریخی");
+  }
+
+  /* =====================================================
+     GOVERNMENT TREE
+  ===================================================== */
+
+  function governmentTree() {
+    const target = document.getElementById("htGovernmentTree");
+
+    if (!target) return;
+
+    target.innerHTML = `
+      <div class="ht-tree">
+
+        <div class="ht-tree-node">🏛️ مادها</div>
+        <div class="ht-tree-line">↓</div>
+
+        <div class="ht-tree-node active">
+          👑 هخامنشیان
+        </div>
+
+        <div class="ht-tree-line">↓</div>
+
+        <div class="ht-tree-branches">
+
+          <div class="ht-tree-node">
+            ⚔️ سلوکیان
+          </div>
+
+          <div class="ht-tree-node">
+            🏛️ اشکانیان
+          </div>
+
+        </div>
+
+        <div class="ht-tree-line">↓</div>
+
+        <div class="ht-tree-node">
+          👑 ساسانیان
+        </div>
+
+      </div>
+
+      <p class="ht-note">
+        این درخت، نمایش آموزشی روابط تاریخی حکومت‌هاست؛
+        مرزها و انتقال قدرت در تاریخ همیشه خطی و ساده نبوده‌اند.
+      </p>
+    `;
+
+    addXP(10, "بررسی درخت حکومت‌ها");
+  }
+
+  /* =====================================================
+     ECONOMY & POWER
+  ===================================================== */
+
+  function economyPower() {
+    const a = document.getElementById("htPowerA").value;
+    const b = document.getElementById("htPowerB").value;
+
+    const values = {
+      "هخامنشیان": {
+        population: "بالا",
+        economy: "بسیار گسترده",
+        military: "گسترده",
+        certainty: "متوسط"
+      },
+      "روم": {
+        population: "بالا",
+        economy: "بسیار گسترده",
+        military: "بسیار گسترده",
+        certainty: "متوسط"
+      },
+      "ساسانیان": {
+        population: "متوسط تا بالا",
+        economy: "گسترده",
+        military: "گسترده",
+        certainty: "متوسط"
+      }
+    };
+
+    const A = values[a];
+    const B = values[b];
+
+    document.getElementById("htPowerResult").innerHTML = `
+      <div class="ht-power-grid">
+
+        <div>
+          <h3>🏛️ ${esc(a)}</h3>
+          <p>👥 جمعیت: ${A.population}</p>
+          <p>💰 اقتصاد: ${A.economy}</p>
+          <p>⚔️ قدرت نظامی: ${A.military}</p>
+          <small>سطح اطمینان: ${A.certainty}</small>
+        </div>
+
+        <div>
+          <h3>🏛️ ${esc(b)}</h3>
+          <p>👥 جمعیت: ${B.population}</p>
+          <p>💰 اقتصاد: ${B.economy}</p>
+          <p>⚔️ قدرت نظامی: ${B.military}</p>
+          <small>سطح اطمینان: ${B.certainty}</small>
+        </div>
+
+      </div>
+
+      <div class="ht-note">
+        ⚠️ مقایسه‌های اقتصادی و جمعیتی تاریخ با عدم‌قطعیت زیادی همراه‌اند؛
+        این اعداد رتبه‌بندی دقیق علمی یا اندازه‌گیری مستقیم قدرت نیستند.
+      </div>
+    `;
+
+    addXP(15, "تحلیل اقتصاد و قدرت");
+  }
+
+  /* =====================================================
+     HISTORICAL AI
+  ===================================================== */
+
+  function historicalAI() {
+    const input = document.getElementById("htAIQuestion");
+    const chat = document.getElementById("htAIAnswer");
+
+    if (!input || !chat) return;
+
+    const q = input.value.trim().toLowerCase();
+
+    if (!q) {
+      chat.innerHTML = "🤖 یک سؤال تاریخی بنویس.";
+      return;
+    }
+
+    let answer =
+      "برای این سؤال در دانشنامه فعلی اطلاعات کافی ندارم. بهتر است موضوع، نام شخصیت یا سال را دقیق‌تر وارد کنی.";
+
+    let link = "";
+
+    if (
+      q.includes("کوروش") ||
+      q.includes("cyrus")
+    ) {
+      answer =
+        "کوروش بزرگ بنیان‌گذار شاهنشاهی هخامنشی بود و در شکل‌گیری یکی از مهم‌ترین قدرت‌های جهان باستان نقش داشت.";
+      link = "کوروش بزرگ";
+    }
+
+    else if (
+      q.includes("هخامنشی") ||
+      q.includes("achaemen")
+    ) {
+      answer =
+        "شاهنشاهی هخامنشی از میانه سده ششم پیش از میلاد پدیدار شد و در دوره داریوش و خشایارشا به یکی از بزرگ‌ترین قدرت‌های زمان خود تبدیل شد.";
+      link = "هخامنشیان";
+    }
+
+    else if (
+      q.includes("روم") ||
+      q.includes("roman")
+    ) {
+      answer =
+        "روم یکی از بزرگ‌ترین قدرت‌های تاریخی مدیترانه بود و میراث آن در حقوق، معماری، زبان و ساختارهای سیاسی بسیار گسترده است.";
+      link = "روم";
+    }
+
+    else if (
+      q.includes("ماراتن")
+    ) {
+      answer =
+        "نبرد ماراتن در ۴۹۰ پیش از میلاد میان نیروهای هخامنشی و آتن رخ داد و با پیروزی آتنیان پایان یافت.";
+      link = "نبرد ماراتن";
+    }
+
+    else if (
+      q.includes("ساسانی")
+    ) {
+      answer =
+        "شاهنشاهی ساسانی از ۲۲۴ تا ۶۵۱ میلادی حکومت کرد و آخرین شاهنشاهی بزرگ ایران پیش از فتح عربی بود.";
+      link = "ساسانیان";
+    }
+
+    chat.innerHTML = `
+      <div class="ht-ai-message">
+        <b>🤖 هوش تاریخی</b>
+        <p>${esc(answer)}</p>
+        ${
+          link
+            ? `<button onclick="HistoryUpgrade.search('${esc(link)}')">
+                 📚 مشاهده مدخل مرتبط
+               </button>`
+            : ""
+        }
+      </div>
+    `;
+
+    addXP(10, "پرسش از هوش تاریخی");
+  }
+
+  /* =====================================================
+     SEARCH
+  ===================================================== */
+
+  function search(term) {
+    const q = String(term || "").toLowerCase();
+
+    if (!q) return;
+
+    let results = [];
+
+    HT_DATA.periods.forEach(x => {
+      if (
+        x.title.toLowerCase().includes(q) ||
+        x.description.toLowerCase().includes(q)
+      ) {
+        results.push({
+          title: x.title,
+          type: "حکومت / دوره",
+          text: x.description
+        });
+      }
+    });
+
+    HT_DATA.places.forEach(x => {
+      if (
+        x.name.toLowerCase().includes(q) ||
+        x.region.toLowerCase().includes(q)
+      ) {
+        results.push({
+          title: x.name,
+          type: "مکان",
+          text: x.importance
+        });
+      }
+    });
+
+    HT_DATA.rulers.forEach(x => {
+      if (x.name.toLowerCase().includes(q)) {
+        results.push({
+          title: x.name,
+          type: "شخصیت",
+          text: x.period + " — " + x.years
+        });
+      }
+    });
+
+    HT_DATA.battles.forEach(x => {
+      if (
+        x.name.toLowerCase().includes(q) ||
+        x.sideA.toLowerCase().includes(q) ||
+        x.sideB.toLowerCase().includes(q)
+      ) {
+        results.push({
+          title: x.name,
+          type: "نبرد",
+          text: x.date
+        });
+      }
+    });
+
+    const box = document.getElementById("htSearchResults");
+
+    if (!box) return;
+
+    box.innerHTML = results.length
+      ? results.map(x => `
+          <div class="ht-search-result">
+            <span>${esc(x.type)}</span>
+            <h3>${esc(x.title)}</h3>
+            <p>${esc(x.text)}</p>
+          </div>
+        `).join("")
+      : `
+        <div class="ht-empty">
+          🔎 نتیجه‌ای در پایگاه فعلی پیدا نشد.
+        </div>
+      `;
+
+    addXP(5, "جستجوی تاریخی");
+  }
+
+  /* =====================================================
+     NOTES
+  ===================================================== */
+
+  function saveNote() {
+    const title = document.getElementById("htNoteTitle");
+    const text = document.getElementById("htNoteText");
+
+    if (!title || !text) return;
+
+    if (!text.value.trim()) {
+      htToast("📝 متن یادداشت را وارد کن");
+      return;
+    }
+
+    const notes = read(HT.notes, []);
+
+    notes.unshift({
+      id: Date.now(),
+      title: title.value.trim() || "یادداشت تاریخی",
+      text: text.value.trim(),
+      date: new Date().toLocaleDateString("fa-IR")
+    });
+
+    write(HT.notes, notes);
+
+    title.value = "";
+    text.value = "";
+
+    htToast("📝 یادداشت ذخیره شد");
+    htRefresh();
+    addXP(5, "ثبت یادداشت تاریخی");
+  }
+
+  function deleteNote(id) {
+    const notes = read(HT.notes, [])
+      .filter(x => x.id !== id);
+
+    write(HT.notes, notes);
+    htRefresh();
+  }
+
+  /* =====================================================
+     QUIZ
+  ===================================================== */
+
+  const HT_QUIZ = [
+    {
+      q: "پایتخت تشریفاتی مهم هخامنشیان کدام بود؟",
+      options: ["تخت جمشید", "رم", "آتن", "اسکندریه"],
+      answer: 0
+    },
+    {
+      q: "نبرد ماراتن در چه سالی رخ داد؟",
+      options: ["۴۹۰ ق.م.", "۳۳۰ ق.م.", "۲۲۴ م.", "۴۷۶ م."],
+      answer: 0
+    },
+    {
+      q: "بنیان‌گذار شاهنشاهی هخامنشی چه کسی بود؟",
+      options: ["کوروش بزرگ", "داریوش سوم", "اسکندر", "آگوستوس"],
+      answer: 0
+    },
+    {
+      q: "ساسانیان از کدام سال آغاز شدند؟",
+      options: ["۲۲۴ م.", "۵۵۰ ق.م.", "۴۷۶ م.", "۶۵۱ م."],
+      answer: 0
+    },
+    {
+      q: "مرکز تاریخی امپراتوری روم چه شهری بود؟",
+      options: ["رم", "پاسارگاد", "بابل", "شوش"],
+      answer: 0
+    }
+  ];
+
+  let quizState = {
+    questions: [],
+    index: 0,
+    score: 0,
+    level: "easy"
+  };
+
+  function startHTQuiz() {
+    const level =
+      document.getElementById("htQuizLevel")?.value || "easy";
+
+    quizState = {
+      questions: [...HT_QUIZ]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, level === "hard" ? 5 : level === "medium" ? 4 : 3),
+      index: 0,
+      score: 0,
+      level
+    };
+
+    renderHTQuiz();
+  }
+
+  function renderHTQuiz() {
+    const box = document.getElementById("htQuizBox");
+
+    if (!box) return;
+
+    if (quizState.index >= quizState.questions.length) {
+      finishHTQuiz();
+      return;
+    }
+
+    const item = quizState.questions[quizState.index];
+
+    box.innerHTML = `
+      <div class="ht-quiz-progress">
+        سؤال ${quizState.index + 1}
+        از ${quizState.questions.length}
+      </div>
+
+      <h3>${esc(item.q)}</h3>
+
+      <div class="ht-options">
+        ${item.options.map((x, i) => `
+          <button onclick="HistoryUpgrade.quizAnswer(${i})">
+            ${esc(x)}
+          </button>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function quizAnswer(index) {
+    const item = quizState.questions[quizState.index];
+
+    if (index === item.answer) {
+      quizState.score++;
+      htToast("✅ پاسخ درست!");
+    } else {
+      htToast("❌ پاسخ نادرست");
+    }
+
+    quizState.index++;
+    renderHTQuiz();
+  }
+
+  function finishHTQuiz() {
+    const oldBest = Number(
+      localStorage.getItem(HT.quiz) || 0
+    );
+
+    const score = quizState.score;
+
+    if (score > oldBest) {
+      localStorage.setItem(HT.quiz, score);
+    }
+
+    const xp = score * 30;
+
+    addXP(xp, "تکمیل آزمون تاریخ");
+
+    document.getElementById("htQuizBox").innerHTML = `
+      <div class="ht-quiz-final">
+        <div>🏁 آزمون تمام شد</div>
+        <strong>${score} / ${quizState.questions.length}</strong>
+        <p>✨ ${xp} XP دریافت کردی</p>
+        <button onclick="HistoryUpgrade.startQuiz()">
+          🔄 آزمون دوباره
+        </button>
+      </div>
+    `;
+  }
+
+  /* =====================================================
+     MYSTERY
+  ===================================================== */
+
+  let mystery = {
+    answer: "کوروش بزرگ",
+    hints: [
+      "من در ایران باستان زندگی می‌کردم.",
+      "با آغاز شاهنشاهی هخامنشی ارتباط دارم.",
+      "پاسارگاد با نام من پیوند دارد."
+    ]
+  };
+
+  function mysteryGame() {
+    const input = document.getElementById("htMysteryInput");
+    const result = document.getElementById("htMysteryResult");
+
+    if (!input || !result) return;
+
+    const answer = input.value.trim();
+
+    if (
+      answer === mystery.answer ||
+      answer.includes("کوروش")
+    ) {
+      result.innerHTML = `
+        <div class="ht-success">
+          🎉 درست است! شخصیت موردنظر ${esc(mystery.answer)} بود.
+        </div>
+      `;
+
+      addXP(50, "حل معمای تاریخی");
+    } else {
+      result.innerHTML = `
+        <div class="ht-mystery-hints">
+          🧩 هنوز نه! یک راهنمایی:
+          <br>
+          ${esc(
+            mystery.hints[
+              Math.floor(Math.random() * mystery.hints.length)
+            ]
+          )}
+        </div>
+      `;
+    }
+  }
+
+  /* =====================================================
+     MISSIONS
+  ===================================================== */
+
+  function renderUpgradeMissions() {
+    const box = document.getElementById("htMissions");
+
+    if (!box) return;
+
+    const xp = getXP();
+    const recent = read(HT.recent, []);
+    const badges = getBadges();
+
+    const missions = [
+      {
+        id: "m1",
+        title: "سه مطلب تاریخی کشف کن",
+        progress: Math.min(recent.length, 3),
+        max: 3,
+        reward: 100
+      },
+      {
+        id: "m2",
+        title: "به ۳۰۰ XP برس",
+        progress: Math.min(xp, 300),
+        max: 300,
+        reward: 150
+      },
+      {
+        id: "m3",
+        title: "یک نشان تاریخی بگیر",
+        progress: Math.min(badges.length, 1),
+        max: 1,
+        reward: 100
+      }
+    ];
+
+    box.innerHTML = missions.map(m => `
+      <div class="ht-mission">
+
+        <div class="ht-mission-title">
+          🎯 ${esc(m.title)}
+        </div>
+
+        <div class="ht-progress">
+          <i style="width:${Math.min(
+            100,
+            (m.progress / m.max) * 100
+          )}%"></i>
+        </div>
+
+        <small>
+          ${m.progress} / ${m.max}
+          — جایزه ${m.reward} XP
+        </small>
+
+        ${
+          m.progress >= m.max
+            ? `<button onclick="HistoryUpgrade.claimMission('${m.id}',${m.reward})">
+                 🏆 دریافت جایزه
+               </button>`
+            : ""
+        }
+
+      </div>
+    `).join("");
+  }
+
+  function claimMission(id, reward) {
+    const key = "seday_ht_claim_" + id;
+
+    if (localStorage.getItem(key)) {
+      htToast("این مأموریت قبلاً دریافت شده است.");
+      return;
+    }
+
+    localStorage.setItem(key, "1");
+    addXP(reward, "تکمیل مأموریت");
+    renderUpgradeMissions();
+  }
+
+  /* =====================================================
+     CALENDAR
+  ===================================================== */
+
+  function calendarHistory() {
+    const day =
+      document.getElementById("htCalendarDay")?.value;
+
+    const month =
+      document.getElementById("htCalendarMonth")?.value;
+
+    const result =
+      document.getElementById("htCalendarResult");
+
+    if (!result) return;
+
+    result.innerHTML = `
+      <div class="ht-calendar-result">
+        📅 ${esc(day)} / ${esc(month)}
+        <p>
+          در این نسخه، تقویم به پایگاه داده تاریخی داخلی متصل است
+          و می‌توان رویدادهای بیشتری به آن اضافه کرد.
+        </p>
+        <p>
+          برای گسترش آن، هر روز می‌تواند چندین رویداد،
+          تولد شخصیت‌ها، مرگ شخصیت‌ها، جنگ‌ها و تأسیس حکومت‌ها داشته باشد.
+        </p>
+      </div>
+    `;
+
+    addXP(5, "کاوش تقویم تاریخ");
+  }
+
+  /* =====================================================
+     PLACE HISTORY
+  ===================================================== */
+
+  function placeHistory() {
+    const input =
+      document.getElementById("htPlaceInput");
+
+    const result =
+      document.getElementById("htPlaceResult");
+
+    if (!input || !result) return;
+
+    const q = input.value.trim().toLowerCase();
+
+    const item = HT_DATA.places.find(
+      x =>
+        x.name.toLowerCase().includes(q) ||
+        x.region.toLowerCase().includes(q)
+    );
+
+    if (!item) {
+      result.innerHTML =
+        "📍 این مکان در پایگاه فعلی پیدا نشد.";
+      return;
+    }
+
+    result.innerHTML = `
+      <h3>📍 ${esc(item.name)}</h3>
+      <p><b>منطقه:</b> ${esc(item.region)}</p>
+      <p><b>دوره:</b> ${esc(item.periods)}</p>
+      <p><b>اهمیت:</b> ${esc(item.importance)}</p>
+      <p><b>افراد مرتبط:</b> ${item.related.map(esc).join("، ")}</p>
+    `;
+
+    addXP(10, "بررسی تاریخ یک مکان");
+  }
+
+  /* =====================================================
+     FAVORITES CENTER
+  ===================================================== */
+
+  function renderFavoritesCenter() {
+    const box =
+      document.getElementById("htFavorites");
+
+    if (!box) return;
+
+    const favorites = getFavoritesSafe();
+
+    if (!favorites.length) {
+      box.innerHTML = `
+        <div class="ht-empty">
+          ⭐ هنوز مطلبی ذخیره نکرده‌ای.
+          <br>
+          از کارت‌های سایت برای افزودن علاقه‌مندی استفاده کن.
+        </div>
+      `;
+      return;
+    }
+
+    box.innerHTML = favorites.map((x, i) => `
+      <div class="ht-favorite">
+        ⭐ ${esc(
+          typeof x === "string"
+            ? x
+            : x.title || x.name || ("مطلب " + (i + 1))
+        )}
+      </div>
+    `).join("");
+  }
+
+  /* =====================================================
+     PODCAST CENTER
+  ===================================================== */
+
+  function renderPodcastCenter() {
+    const box =
+      document.getElementById("htPodcastCenter");
+
+    if (!box) return;
+
+    let podcasts = [];
+
+    try {
+      if (typeof getPodcasts === "function") {
+        podcasts = getPodcasts();
+      }
+    } catch {}
+
+    podcasts = podcasts || [];
+
+    box.innerHTML = `
+      <div class="ht-podcast-search">
+        <input
+          id="htPodcastSearch"
+          placeholder="جستجوی اپیزود..."
+          oninput="HistoryUpgrade.filterPodcast()"
+        >
+      </div>
+
+      <div id="htPodcastResults">
+        ${
+          podcasts.length
+            ? podcasts.map(x => `
+                <div class="ht-podcast-item">
+                  🎙️ <b>${esc(x.title)}</b>
+                  <p>${esc(x.description || "")}</p>
+                </div>
+              `).join("")
+            : `
+              <div class="ht-empty">
+                هنوز اپیزود اختصاصی در پایگاه محلی ثبت نشده است.
+              </div>
+            `
+        }
+      </div>
+    `;
+  }
+
+  function filterPodcast() {
+    const input =
+      document.getElementById("htPodcastSearch");
+
+    const box =
+      document.getElementById("htPodcastResults");
+
+    if (!input || !box) return;
+
+    let podcasts = [];
+
+    try {
+      if (typeof getPodcasts === "function") {
+        podcasts = getPodcasts() || [];
+      }
+    } catch {}
+
+    const q = input.value.toLowerCase();
+
+    const filtered = podcasts.filter(
+      x =>
+        String(x.title || "").toLowerCase().includes(q) ||
+        String(x.description || "").toLowerCase().includes(q)
+    );
+
+    box.innerHTML = filtered.length
+      ? filtered.map(x => `
+          <div class="ht-podcast-item">
+            🎙️ <b>${esc(x.title)}</b>
+            <p>${esc(x.description || "")}</p>
+          </div>
+        `).join("")
+      : "🎙️ اپیزودی پیدا نشد.";
+  }
+
+  /* =====================================================
+     CSS
+  ===================================================== */
+
+  function injectCSS() {
+
+    if (document.getElementById("history-upgrade-css")) {
+      return;
+    }
+
+    const style = document.createElement("style");
+
+    style.id = "history-upgrade-css";
+
+    style.textContent = `
+      .ht-command-center{
+        margin:50px auto;
+        max-width:1250px;
+        padding:25px;
+        border-radius:30px;
+        background:
+          linear-gradient(
+            135deg,
+            rgba(21,24,32,.97),
+            rgba(11,13,18,.98)
+          );
+        border:1px solid rgba(201,154,62,.25);
+        box-shadow:0 25px 80px rgba(0,0,0,.4);
+      }
+
+      .ht-command-title{
+        text-align:center;
+        margin-bottom:30px;
+      }
+
+      .ht-command-title h2{
+        font-size:32px;
+        margin:5px 0;
+      }
+
+      .ht-command-title p{
+        color:#9A9EA8;
+      }
+
+      .ht-grid{
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:18px;
+      }
+
+      .ht-card{
+        background:rgba(255,255,255,.045);
+        border:1px solid rgba(255,255,255,.09);
+        border-radius:22px;
+        padding:20px;
+        backdrop-filter:blur(14px);
+      }
+
+      .ht-card.full{
+        grid-column:1/-1;
+      }
+
+      .ht-card h3{
+        margin-top:0;
+        color:#E2B85B;
+      }
+
+      .ht-input,
+      .ht-card input,
+      .ht-card select,
+      .ht-card textarea{
+        width:100%;
+        box-sizing:border-box;
+        margin:7px 0;
+        padding:13px;
+        border-radius:13px;
+        border:1px solid #292E38;
+        background:#0B0D12;
+        color:#F5F3EE;
+        outline:none;
+      }
+
+      .ht-card textarea{
+        min-height:110px;
+        resize:vertical;
+      }
+
+      .ht-card button,
+      .ht-command-btn{
+        border:0;
+        border-radius:12px;
+        padding:11px 15px;
+        margin:5px 3px;
+        cursor:pointer;
+        background:#C99A3E;
+        color:#0B0D12;
+        font-weight:800;
+      }
+
+      .ht-card button:hover{
+        transform:translateY(-2px);
+        filter:brightness(1.1);
+      }
+
+      .ht-profile{
+        display:flex;
+        gap:15px;
+        align-items:center;
+      }
+
+      .ht-avatar{
+        width:70px;
+        height:70px;
+        border-radius:50%;
+        display:grid;
+        place-items:center;
+        font-size:35px;
+        background:rgba(201,154,62,.15);
+        border:1px solid rgba(201,154,62,.4);
+      }
+
+      .ht-xp{
+        display:grid;
+        grid-template-columns:100px 1fr;
+        gap:18px;
+        align-items:center;
+      }
+
+      .ht-level{
+        width:90px;
+        height:90px;
+        border-radius:50%;
+        display:grid;
+        place-items:center;
+        background:
+          conic-gradient(
+            #C99A3E var(--xp),
+            #292E38 var(--xp)
+          );
+        font-size:25px;
+        font-weight:900;
+      }
+
+      .ht-xp-number{
+        font-size:28px;
+        font-weight:900;
+        color:#E2B85B;
+      }
+
+      .ht-rank{
+        color:#E8DCC4;
+        font-weight:800;
+      }
+
+      .ht-progress{
+        height:9px;
+        background:#292E38;
+        border-radius:20px;
+        overflow:hidden;
+        margin:10px 0;
+      }
+
+      .ht-progress i{
+        display:block;
+        height:100%;
+        background:#C99A3E;
+      }
+
+      .ht-map-surface{
+        position:relative;
+        min-height:420px;
+        overflow:hidden;
+        border-radius:22px;
+        background:
+          radial-gradient(
+            circle at 50% 45%,
+            rgba(201,154,62,.16),
+            transparent 40%
+          ),
+          linear-gradient(135deg,#10151b,#080a0e);
+        border:1px solid rgba(201,154,62,.25);
+      }
+
+      .ht-map-surface:before{
+        content:"";
+        position:absolute;
+        inset:8%;
+        border:1px dashed rgba(226,184,91,.18);
+        border-radius:45% 55% 48% 52%;
+        transform:rotate(-8deg);
+      }
+
+      .ht-map-title{
+        position:absolute;
+        top:20px;
+        right:20px;
+        font-weight:900;
+        font-size:20px;
+        color:#E2B85B;
+      }
+
+      .ht-map-point{
+        position:absolute;
+        z-index:2;
+        border-radius:50px!important;
+        box-shadow:0 0 25px rgba(201,154,62,.25);
+      }
+
+      .ht-map-point.p1{right:45%;top:48%}
+      .ht-map-point.p2{right:55%;top:38%}
+      .ht-map-point.p3{left:22%;top:36%}
+      .ht-map-point.p4{left:45%;top:62%}
+
+      .ht-map-info{
+        position:absolute;
+        bottom:15px;
+        right:15px;
+        left:15px;
+        padding:15px;
+        border-radius:18px;
+        background:rgba(11,13,18,.88);
+        border:1px solid rgba(255,255,255,.08);
+      }
+
+      .ht-year-grid,
+      .ht-world-grid,
+      .ht-info-grid,
+      .ht-power-grid{
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:12px;
+      }
+
+      .ht-mini,
+      .ht-world-grid>div,
+      .ht-info-grid>div,
+      .ht-power-grid>div{
+        padding:15px;
+        border-radius:16px;
+        background:rgba(255,255,255,.035);
+        border:1px solid rgba(255,255,255,.07);
+      }
+
+      .ht-mini b,
+      .ht-world-grid b{
+        display:block;
+        color:#E2B85B;
+        margin-bottom:10px;
+      }
+
+      .ht-mini span{
+        display:block;
+        margin:5px 0;
+        color:#E8DCC4;
+      }
+
+      .ht-year-title{
+        font-size:24px;
+        font-weight:900;
+        color:#E2B85B;
+        margin-bottom:18px;
+      }
+
+      .ht-compare-table{
+        overflow:hidden;
+        border-radius:16px;
+        border:1px solid #292E38;
+      }
+
+      .ht-compare-head,
+      .ht-compare-row{
+        display:grid;
+        grid-template-columns:1fr 2fr 2fr;
+      }
+
+      .ht-compare-head>*,
+      .ht-compare-row>*{
+        padding:13px;
+        border-left:1px solid #292E38;
+        border-bottom:1px solid #292E38;
+      }
+
+      .ht-compare-head{
+        background:rgba(201,154,62,.13);
+        color:#E2B85B;
+      }
+
+      .ht-battle-result,
+      .ht-calendar-result,
+      .ht-success,
+      .ht-mystery-hints{
+        padding:17px;
+        border-radius:16px;
+        background:rgba(42,157,143,.08);
+        border:1px solid rgba(42,157,143,.2);
+      }
+
+      .ht-tree{
+        text-align:center;
+        padding:15px;
+      }
+
+      .ht-tree-node{
+        display:inline-block;
+        padding:14px 22px;
+        margin:5px;
+        border-radius:15px;
+        background:rgba(255,255,255,.05);
+        border:1px solid rgba(255,255,255,.1);
+      }
+
+      .ht-tree-node.active{
+        background:rgba(201,154,62,.15);
+        border-color:#C99A3E;
+        color:#E2B85B;
+      }
+
+      .ht-tree-line{
+        color:#C99A3E;
+        font-size:25px;
+      }
+
+      .ht-tree-branches{
+        display:flex;
+        justify-content:center;
+        gap:15px;
+      }
+
+      .ht-note{
+        margin-top:15px;
+        padding:12px;
+        border-radius:12px;
+        color:#9A9EA8;
+        background:rgba(255,255,255,.03);
+      }
+
+      .ht-search-result,
+      .ht-favorite,
+      .ht-podcast-item,
+      .ht-mission,
+      .ht-note-item{
+        padding:14px;
+        margin:8px 0;
+        border-radius:15px;
+        background:rgba(255,255,255,.04);
+        border:1px solid rgba(255,255,255,.07);
+      }
+
+      .ht-search-result span{
+        color:#C99A3E;
+        font-size:12px;
+      }
+
+      .ht-search-result h3{
+        margin:5px 0;
+        color:#F5F3EE;
+      }
+
+      .ht-mission-title{
+        font-weight:800;
+      }
+
+      .ht-options{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+      }
+
+      .ht-options button{
+        width:100%;
+      }
+
+      .ht-quiz-progress{
+        color:#9A9EA8;
+        margin-bottom:12px;
+      }
+
+      .ht-quiz-final{
+        text-align:center;
+        padding:20px;
+      }
+
+      .ht-quiz-final strong{
+        display:block;
+        font-size:50px;
+        color:#E2B85B;
+        margin:10px;
+      }
+
+      .ht-badges{
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+      }
+
+      .ht-badge{
+        padding:14px;
+        border-radius:16px;
+        background:rgba(201,154,62,.1);
+        border:1px solid rgba(201,154,62,.25);
+        flex:1 1 160px;
+      }
+
+      .ht-toast{
+        position:fixed;
+        z-index:999999;
+        bottom:22px;
+        left:50%;
+        transform:translateX(-50%) translateY(30px);
+        opacity:0;
+        padding:14px 20px;
+        border-radius:15px;
+        background:#151820;
+        color:#F5F3EE;
+        border:1px solid rgba(201,154,62,.45);
+        box-shadow:0 15px 45px rgba(0,0,0,.4);
+        transition:.3s ease;
+      }
+
+      .ht-toast.show{
+        opacity:1;
+        transform:translateX(-50%) translateY(0);
+      }
+
+      @media(max-width:800px){
+
+        .ht-command-center{
+          margin:25px 10px;
+          padding:14px;
+          border-radius:22px;
+        }
+
+        .ht-grid,
+        .ht-year-grid,
+        .ht-world-grid,
+        .ht-info-grid,
+        .ht-power-grid{
+          grid-template-columns:1fr;
+        }
+
+        .ht-card.full{
+          grid-column:auto;
+        }
+
+        .ht-compare-head,
+        .ht-compare-row{
+          grid-template-columns:90px 1fr 1fr;
+          font-size:13px;
+        }
+
+        .ht-options{
+          grid-template-columns:1fr;
+        }
+
+        .ht-map-surface{
+          min-height:350px;
+        }
+
+        .ht-command-title h2{
+          font-size:25px;
+        }
+
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
+  /* =====================================================
+     TOAST
+  ===================================================== */
+
+  function htToast(message) {
+
+    let toast = document.getElementById("htToast");
+
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "htToast";
+      toast.className = "ht-toast";
+      document.body.appendChild(toast);
+    }
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(window.__htToastTimer);
+
+    window.__htToastTimer = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2500);
+  }
+
+  /* =====================================================
+     COMMAND CENTER HTML
+  ===================================================== */
+
+  function injectCommandCenter() {
+
+    if (document.getElementById("htCommandCenter")) {
+      return;
+    }
+
+    const host =
+      document.querySelector("main") ||
+      document.body;
+
+    const wrapper =
+      document.createElement("section");
+
+    wrapper.id = "htCommandCenter";
+    wrapper.className = "ht-command-center";
+
+    wrapper.innerHTML = `
+
+      <div class="ht-command-title">
+        <div style="font-size:42px">🏛️</div>
+        <h2>مرکز فرماندهی تاریخ</h2>
+        <p>
+          مرکز تعاملی صدای تاریخ — کشف، مقایسه، پژوهش و بازی با تاریخ
+        </p>
+      </div>
+
+      <div class="ht-grid">
+
+        <!-- PROFILE -->
+        <div class="ht-card">
+
+          <h3>👤 پروفایل تاریخ‌پژوه</h3>
+
+          <div class="ht-profile">
+
+            <div class="ht-avatar" id="htProfileAvatarView">
+              🏛️
+            </div>
+
+            <div style="flex:1">
+
+              <input
+                id="htProfileName"
+                placeholder="نام شما"
+              >
+
+              <input
+                id="htProfileAvatar"
+                placeholder="ایموجی آواتار"
+              >
+
+              <button onclick="HistoryUpgrade.saveProfile()">
+                💾 ذخیره پروفایل
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- XP -->
+        <div class="ht-card">
+
+          <h3>⭐ XP و رتبه تاریخی</h3>
+
+          <div class="ht-xp">
+
+            <div
+              class="ht-level"
+              id="htLevelCircle"
+            >
+              1
+            </div>
+
+            <div>
+
+              <div
+                class="ht-xp-number"
+                id="htXPNumber"
+              >
+                0 XP
+              </div>
+
+              <div
+                class="ht-rank"
+                id="htRank"
+              >
+                🟢 تازه‌کار
+              </div>
+
+              <div class="ht-progress">
+                <i id="htXPProgress"></i>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- MAP -->
+        <div class="ht-card full">
+
+          <h3>🗺️ نقشه تاریخی پیشرفته</h3>
+
+          <p class="ht-note">
+            دوره‌های تاریخی و داده‌های بیشتر را می‌توان در همین ساختار اضافه کرد.
+          </p>
+
+          <div id="htMap"></div>
+
+        </div>
+
+        <!-- TIME MACHINE -->
+        <div class="ht-card">
+
+          <h3>🕰️ ماشین زمان نسل جدید</h3>
+
+          <input
+            id="htYearInput"
+            type="number"
+            placeholder="مثلاً -550 برای ۵۵۰ ق.م."
+          >
+
+          <button onclick="HistoryUpgrade.timeMachine()">
+            🚀 سفر به این سال
+          </button>
+
+          <div id="htTimeResult"></div>
+
+        </div>
+
+        <!-- WORLD IN YEAR -->
+        <div class="ht-card">
+
+          <h3>🌐 جهان در یک سال</h3>
+
+          <input
+            id="htWorldYear"
+            type="number"
+            placeholder="مثلاً -500"
+          >
+
+          <button onclick="HistoryUpgrade.worldInYear()">
+            🌍 ساخت جهان
+          </button>
+
+          <div id="htWorldResult"></div>
+
+        </div>
+
+        <!-- AI -->
+        <div class="ht-card full">
+
+          <h3>🤖 هوش تاریخی</h3>
+
+          <input
+            id="htAIQuestion"
+            placeholder="مثلاً کوروش بزرگ چه کسی بود؟"
+          >
+
+          <button onclick="HistoryUpgrade.historicalAI()">
+            🤖 پرسش
+          </button>
+
+          <div id="htAIAnswer" class="ht-ai-message">
+            پیشنهاد:
+            «هخامنشیان چه زمانی شکل گرفتند؟»
+          </div>
+
+        </div>
+
+        <!-- SEARCH -->
+        <div class="ht-card full">
+
+          <h3>🔎 جستجوی سراسری</h3>
+
+          <input
+            id="htGlobalSearch"
+            placeholder="شخصیت، جنگ، حکومت، مکان..."
+            onkeydown="
+              if(event.key==='Enter')
+              HistoryUpgrade.search(this.value)
+            "
+          >
+
+          <button
+            onclick="
+              HistoryUpgrade.search(
+                document.getElementById('htGlobalSearch').value
+              )
+            "
+          >
+            🔎 جستجو
+          </button>
+
+          <div id="htSearchResults"></div>
+
+        </div>
+
+        <!-- COMPARISON -->
+        <div class="ht-card full">
+
+          <h3>⚔️ آزمایشگاه مقایسه تاریخی</h3>
+
+          <select id="htCompareA">
+            <option>هخامنشیان</option>
+            <option>روم</option>
+            <option>ساسانیان</option>
+          </select>
+
+          <select id="htCompareB">
+            <option>روم</option>
+            <option>هخامنشیان</option>
+            <option>ساسانیان</option>
+          </select>
+
+          <button onclick="HistoryUpgrade.compareHistory()">
+            ⚔️ مقایسه
+          </button>
+
+          <div id="htCompareResult"></div>
+
+        </div>
+
+        <!-- CIVILIZATION -->
+        <div class="ht-card">
+
+          <h3>🏛️ تمدن‌ساز</h3>
+
+          <select id="htCivilization">
+            ${HT_DATA.civilizations.map(x =>
+              `<option>${esc(x.name)}</option>`
+            ).join("")}
+          </select>
+
+          <button onclick="HistoryUpgrade.civilizationBuilder()">
+            🏛️ بررسی تمدن
+          </button>
+
+          <div id="htCivilizationResult"></div>
+
+        </div>
+
+        <!-- BATTLE -->
+        <div class="ht-card">
+
+          <h3>⚔️ شبیه‌ساز نبرد تاریخی</h3>
+
+          <select id="htBattleA">
+            <option>ایرانیان هخامنشی</option>
+            <option>هخامنشیان</option>
+            <option>مقدونیان</option>
+          </select>
+
+          <select id="htBattleB">
+            <option>آتن</option>
+            <option>نیروهای یونانی</option>
+            <option>مقدونیان</option>
+          </select>
+
+          <button onclick="HistoryUpgrade.battleSimulator()">
+            ⚔️ بازسازی
+          </button>
+
+          <div id="htBattleResult"></div>
+
+        </div>
+
+        <!-- GOVERNMENT TREE -->
+        <div class="ht-card full">
+
+          <h3>🌳 درخت حکومت‌ها</h3>
+
+          <div id="htGovernmentTree"></div>
+
+        </div>
+
+        <!-- ECONOMY -->
+        <div class="ht-card full">
+
+          <h3>💰 اقتصاد و قدرت</h3>
+
+          <select id="htPowerA">
+            <option>هخامنشیان</option>
+            <option>روم</option>
+            <option>ساسانیان</option>
+          </select>
+
+          <select id="htPowerB">
+            <option>روم</option>
+            <option>هخامنشیان</option>
+            <option>ساسانیان</option>
+          </select>
+
+          <button onclick="HistoryUpgrade.economyPower()">
+            📊 مقایسه قدرت
+          </button>
+
+          <div id="htPowerResult"></div>
+
+        </div>
+
+        <!-- QUIZ -->
+        <div class="ht-card">
+
+          <h3>🧠 آزمون تاریخ</h3>
+
+          <select id="htQuizLevel">
+            <option value="easy">🟢 آسان</option>
+            <option value="medium">🔵 متوسط</option>
+            <option value="hard">🔴 سخت</option>
+          </select>
+
+          <button onclick="HistoryUpgrade.startQuiz()">
+            🧠 شروع آزمون
+          </button>
+
+          <div id="htQuizBox"></div>
+
+        </div>
+
+        <!-- MYSTERY -->
+        <div class="ht-card">
+
+          <h3>🧩 معمای تاریخی</h3>
+
+          <p>
+            من در ایران باستان زندگی می‌کردم و با آغاز هخامنشیان
+            ارتباط دارم. من کیستم؟
+          </p>
+
+          <input
+            id="htMysteryInput"
+            placeholder="پاسخ..."
+          >
+
+          <button onclick="HistoryUpgrade.mysteryGame()">
+            🧩 پاسخ
+          </button>
+
+          <div id="htMysteryResult"></div>
+
+        </div>
+
+        <!-- MISSIONS -->
+        <div class="ht-card">
+
+          <h3>🏆 مأموریت‌ها</h3>
+
+          <div id="htMissions"></div>
+
+        </div>
+
+        <!-- BADGES -->
+        <div class="ht-card">
+
+          <h3>🏅 نشان‌ها</h3>
+
+          <div
+            id="htBadges"
+            class="ht-badges"
+          ></div>
+
+        </div>
+
+        <!-- CALENDAR -->
+        <div class="ht-card">
+
+          <h3>🗓️ تقویم تاریخ</h3>
+
+          <input
+            id="htCalendarDay"
+            type="number"
+            min="1"
+            max="31"
+            placeholder="روز"
+          >
+
+          <input
+            id="htCalendarMonth"
+            type="number"
+            min="1"
+            max="12"
+            placeholder="ماه"
+          >
+
+          <button onclick="HistoryUpgrade.calendarHistory()">
+            📅 بررسی
+          </button>
+
+          <div id="htCalendarResult"></div>
+
+        </div>
+
+        <!-- PLACE HISTORY -->
+        <div class="ht-card">
+
+          <h3>📍 تاریخ یک مکان</h3>
+
+          <input
+            id="htPlaceInput"
+            placeholder="مثلاً تخت جمشید"
+          >
+
+          <button onclick="HistoryUpgrade.placeHistory()">
+            📍 کشف تاریخ مکان
+          </button>
+
+          <div id="htPlaceResult"></div>
+
+        </div>
+
+        <!-- FAVORITES -->
+        <div class="ht-card">
+
+          <h3>⭐ علاقه‌مندی‌ها</h3>
+
+          <div id="htFavorites"></div>
+
+        </div>
+
+        <!-- NOTES -->
+        <div class="ht-card">
+
+          <h3>📝 یادداشت‌های تاریخی</h3>
+
+          <input
+            id="htNoteTitle"
+            placeholder="عنوان یادداشت"
+          >
+
+          <textarea
+            id="htNoteText"
+            placeholder="یادداشت خودت را بنویس..."
+          ></textarea>
+
+          <button onclick="HistoryUpgrade.saveNote()">
+            📝 ذخیره
+          </button>
+
+          <div id="htNotes"></div>
+
+        </div>
+
+        <!-- PODCAST -->
+        <div class="ht-card full">
+
+          <h3>🎙️ مرکز پادکست</h3>
+
+          <div id="htPodcastCenter"></div>
+
+        </div>
+
+        <!-- TODAY -->
+        <div class="ht-card full">
+
+          <h3>📅 امروز در تاریخ</h3>
+
+          <div id="htToday"></div>
+
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="ht-card full">
+
+          <h3>📊 داشبورد تاریخ‌پژوه</h3>
+
+          <div
+            id="htDashboard"
+            class="ht-info-grid"
+          ></div>
+
+        </div>
+
+      </div>
+    `;
+
+    host.appendChild(wrapper);
+
+    renderMap();
+    governmentTree();
+    renderPodcastCenter();
+    htRefresh();
+  }
+
+  /* =====================================================
+     REFRESH
+  ===================================================== */
+
+  function htRefresh() {
+
+    const profile = getProfile();
+
+    const name =
+      document.getElementById("htProfileName");
+
+    const avatar =
+      document.getElementById("htProfileAvatar");
+
+    const avatarView =
+      document.getElementById("htProfileAvatarView");
+
+    if (name) name.value = profile.name;
+    if (avatar) avatar.value = profile.avatar;
+    if (avatarView) avatarView.textContent = profile.avatar;
+
+    const xp = getXP();
+    const level = getLevel();
+    const rank = getRank();
+
+    const xpNumber =
+      document.getElementById("htXPNumber");
+
+    const levelCircle =
+      document.getElementById("htLevelCircle");
+
+    const rankBox =
+      document.getElementById("htRank");
+
+    const progress =
+      document.getElementById("htXPProgress");
+
+    if (xpNumber) {
+      xpNumber.textContent = xp + " XP";
+    }
+
+    if (levelCircle) {
+      levelCircle.textContent = level;
+      levelCircle.style.setProperty(
+        "--xp",
+        (xp % 100) + "%"
+      );
+    }
+
+    if (rankBox) {
+      rankBox.textContent =
+        rank[0] + " " + rank[1];
+    }
+
+    if (progress) {
+      progress.style.width =
+        (xp % 100) + "%";
+    }
+
+    renderUpgradeMissions();
+    renderBadges();
+    renderNotes();
+    renderFavoritesCenter();
+    renderToday();
+    renderDashboard();
+  }
+
+  /* =====================================================
+     BADGES UI
+  ===================================================== */
+
+  function renderBadges() {
+
+    const box =
+      document.getElementById("htBadges");
+
+    if (!box) return;
+
+    const badges = getBadges();
+
+    if (!badges.length) {
+      box.innerHTML = `
+        <div class="ht-empty">
+          هنوز نشانی باز نشده است.
+          <br>
+          با کاوش تاریخ XP کسب کن.
+        </div>
+      `;
+      return;
+    }
+
+    box.innerHTML = badges.map(x => `
+      <div class="ht-badge">
+        🏅 <b>${esc(x.title)}</b>
+        <p>${esc(x.description)}</p>
+        <small>${esc(x.date)}</small>
+      </div>
+    `).join("");
+  }
+
+  /* =====================================================
+     NOTES UI
+  ===================================================== */
+
+  function renderNotes() {
+
+    const box =
+      document.getElementById("htNotes");
+
+    if (!box) return;
+
+    const notes = read(HT.notes, []);
+
+    if (!notes.length) {
+      box.innerHTML =
+        `<div class="ht-empty">هنوز یادداشتی ثبت نشده.</div>`;
+      return;
+    }
+
+    box.innerHTML = notes.map(x => `
+      <div class="ht-note-item">
+        <b>📝 ${esc(x.title)}</b>
+        <p>${esc(x.text)}</p>
+        <small>${esc(x.date)}</small>
+        <br>
+        <button
+          onclick="HistoryUpgrade.deleteNote(${x.id})"
+        >
+          🗑️ حذف
+        </button>
+      </div>
+    `).join("");
+  }
+
+  /* =====================================================
+     TODAY UI
+  ===================================================== */
+
+  function renderToday() {
+
+    const box =
+      document.getElementById("htToday");
+
+    if (!box) return;
+
+    const d = new Date();
+    const event = todayEvents();
+
+    box.innerHTML = `
+      <div class="ht-year-title">
+        📅 ${esc(
+          d.toLocaleDateString("fa-IR", {
+            dateStyle: "full"
+          })
+        )}
+      </div>
+
+      <div class="ht-battle-result">
+        <h3>${esc(event[0])}</h3>
+        <p>${esc(event[1])}</p>
+      </div>
+    `;
+  }
+
+  /* =====================================================
+     DASHBOARD
+  ===================================================== */
+
+  function renderDashboard() {
+
+    const box =
+      document.getElementById("htDashboard");
+
+    if (!box) return;
+
+    const xp = getXP();
+    const recent = read(HT.recent, []);
+    const notes = read(HT.notes, []);
+    const badges = getBadges();
+    const favorites = getFavoritesSafe();
+    const best = Number(
+      localStorage.getItem(HT.quiz) || 0
+    );
+
+    box.innerHTML = `
+
+      <div>
+        <h3>⭐ XP</h3>
+        <strong>${xp}</strong>
+      </div>
+
+      <div>
+        <h3>🎖️ رتبه</h3>
+        <strong>${esc(getRank()[1])}</strong>
+      </div>
+
+      <div>
+        <h3>📚 مشاهده‌شده</h3>
+        <strong>${recent.length}</strong>
+      </div>
+
+      <div>
+        <h3>⭐ علاقه‌مندی</h3>
+        <strong>${favorites.length}</strong>
+      </div>
+
+      <div>
+        <h3>🏅 نشان‌ها</h3>
+        <strong>${badges.length}</strong>
+      </div>
+
+      <div>
+        <h3>📝 یادداشت‌ها</h3>
+        <strong>${notes.length}</strong>
+      </div>
+
+      <div>
+        <h3>🧠 رکورد آزمون</h3>
+        <strong>${best}</strong>
+      </div>
+
+    `;
+  }
+
+  /* =====================================================
+     PUBLIC API
+  ===================================================== */
+
+  window.HistoryUpgrade = {
+
+    timeMachine,
+    worldInYear,
+    mapPlace,
+    civilizationBuilder,
+    compareHistory,
+    battleSimulator,
+    economyPower,
+    historicalAI,
+    search,
+    saveNote,
+    deleteNote,
+    startQuiz: startHTQuiz,
+    quizAnswer,
+    mysteryGame,
+    claimMission,
+    calendarHistory,
+    placeHistory,
+    saveProfile,
+    filterPodcast,
+    refresh: htRefresh
+  };
+
+  /* =====================================================
+     INIT
+  ===================================================== */
+
+  function init() {
+    injectCSS();
+    injectCommandCenter();
+    htCheckBadges();
+    htRefresh();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      init
+    );
+  } else {
+    init();
+  }
+
+})();
 </script>
 
 </body>
