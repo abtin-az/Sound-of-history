@@ -1,0 +1,542 @@
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+from pathlib import Path
+import secrets
+import json
+import shutil
+
+
+# =========================================================
+# APP
+# =========================================================
+
+app = FastAPI(
+    title="Sadaye Tarikh API",
+    description="Backend سایت صدای تاریخ",
+    version="2.0.0"
+)
+
+
+# =========================================================
+# CORS
+# =========================================================
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# =========================================================
+# PATHS
+# =========================================================
+
+BASE_DIR = Path(__file__).resolve().parent
+
+DATA_DIR = BASE_DIR / "data"
+UPLOAD_DIR = BASE_DIR / "uploads"
+
+DATA_DIR.mkdir(exist_ok=True)
+UPLOAD_DIR.mkdir(exist_ok=True)
+
+
+PODCAST_FILE = DATA_DIR / "podcasts.json"
+
+
+if not PODCAST_FILE.exists():
+    PODCAST_FILE.write_text(
+        "[]",
+        encoding="utf-8"
+    )
+
+
+# =========================================================
+# STATIC FILES
+# =========================================================
+
+app.mount(
+    "/uploads",
+    StaticFiles(directory=str(UPLOAD_DIR)),
+    name="uploads"
+)
+
+
+# =========================================================
+# ADMIN SETTINGS
+# =========================================================
+
+ADMIN_USERNAME = "admin"
+
+# رمز آزمایشی
+# قبل از انتشار عمومی حتماً تغییرش بده.
+ADMIN_PASSWORD = "ChangeThisPassword123!"
+
+
+# =========================================================
+# ADMIN SESSIONS
+# =========================================================
+
+admin_sessions = set()
+
+
+# =========================================================
+# MODELS
+# =========================================================
+
+class LoginRequest(BaseModel):
+
+    username: str
+    password: str
+
+
+# =========================================================
+# HELPERS
+# =========================================================
+
+def load_podcasts():
+
+    try:
+
+        return json.loads(
+            PODCAST_FILE.read_text(
+                encoding="utf-8"
+            )
+        )
+
+    except Exception:
+
+        return []
+
+
+def save_podcasts(podcasts):
+
+    PODCAST_FILE.write_text(
+        json.dumps(
+            podcasts,
+            ensure_ascii=False,
+            indent=2
+        ),
+        encoding="utf-8"
+    )
+
+
+def check_admin(token):
+
+    if not token or token not in admin_sessions:
+
+        raise HTTPException(
+            status_code=401,
+            detail="دسترسی غیرمجاز"
+        )
+
+
+# =========================================================
+# ROOT
+# =========================================================
+
+@app.get("/")
+def root():
+
+    return {
+        "success": True,
+        "message": "صدای تاریخ API فعال است 🎙️"
+    }
+
+
+# =========================================================
+# HEALTH
+# =========================================================
+
+@app.get("/api/health")
+def health():
+
+    return {
+        "success": True,
+        "status": "online"
+    }
+
+
+# =========================================================
+# LOGIN
+# =========================================================
+
+@app.post("/api/admin/login")
+def admin_login(data: LoginRequest):
+
+    username_ok = secrets.compare_digest(
+        data.username,
+        ADMIN_USERNAME
+    )
+
+    password_ok = secrets.compare_digest(
+        data.password,
+        ADMIN_PASSWORD
+    )
+
+    if not username_ok or not password_ok:
+
+        raise HTTPException(
+            status_code=401,
+            detail="نام کاربری یا رمز عبور اشتباه است"
+        )
+
+
+    token = secrets.token_urlsafe(32)
+
+    admin_sessions.add(token)
+
+
+    return {
+        "success": True,
+        "message": "ورود مدیر موفق بود 👑",
+        "token": token
+    }
+
+
+# =========================================================
+# CHECK ADMIN
+# =========================================================
+
+@app.get("/api/admin/check")
+def admin_check(token: str):
+
+    check_admin(token)
+
+    return {
+        "success": True,
+        "admin": True
+    }
+
+
+# =========================================================
+# LOGOUT
+# =========================================================
+
+@app.post("/api/admin/logout")
+def admin_logout(token: str):
+
+    admin_sessions.discard(token)
+
+    return {
+        "success": True,
+        "message": "خروج مدیر انجام شد"
+    }
+
+
+# =========================================================
+# GET PODCASTS
+# =========================================================
+
+@app.get("/api/podcasts")
+def get_podcasts():
+
+    podcasts = load_podcasts()
+
+    return {
+        "success": True,
+        "podcasts": podcasts
+    }
+
+
+# =========================================================
+# PUBLISH PODCAST
+# =========================================================
+
+@app.post("/api/admin/podcasts")
+async def publish_podcast(
+
+    token: str = Form(...),
+
+    title: str = Form(...),
+
+    description: str = Form(...),
+
+    category: str = Form(...),
+
+    date: str = Form(""),
+
+    cover: UploadFile | None = File(None),
+
+    audio: UploadFile = File(...)
+
+):
+
+    # بررسی مدیر
+    check_admin(token)
+
+
+    # بررسی عنوان
+    if not title.strip():
+
+        raise HTTPException(
+            status_code=400,
+            detail="عنوان پادکست الزامی است"
+        )
+
+
+    # بررسی توضیحات
+    if not description.strip():
+
+        raise HTTPException(
+            status_code=400,
+            detail="توضیحات پادکست الزامی است"
+        )
+
+
+    # بررسی فایل صوتی
+    if not audio:
+
+        raise HTTPException(
+            status_code=400,
+            detail="فایل صوتی الزامی است"
+        )
+
+
+    # =====================================================
+    # AUDIO
+    # =====================================================
+
+    audio_extension = Path(
+        audio.filename or ""
+    ).suffix.lower()
+
+
+    allowed_audio = {
+        ".mp3",
+        ".wav",
+        ".ogg",
+        ".m4a",
+        ".aac",
+        ".webm"
+    }
+
+
+    if audio_extension not in allowed_audio:
+
+        raise HTTPException(
+            status_code=400,
+            detail="فرمت فایل صوتی پشتیبانی نمی‌شود"
+        )
+
+
+    audio_id = secrets.token_hex(12)
+
+    audio_name = (
+        audio_id +
+        audio_extension
+    )
+
+    audio_path = UPLOAD_DIR / audio_name
+
+
+    with audio_path.open("wb") as buffer:
+
+        shutil.copyfileobj(
+            audio.file,
+            buffer
+        )
+
+
+    # =====================================================
+    # COVER
+    # =====================================================
+
+    cover_url = ""
+
+
+    if cover:
+
+        cover_extension = Path(
+            cover.filename or ""
+        ).suffix.lower()
+
+
+        allowed_images = {
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".webp"
+        }
+
+
+        if cover_extension in allowed_images:
+
+            cover_id = secrets.token_hex(12)
+
+            cover_name = (
+                cover_id +
+                cover_extension
+            )
+
+            cover_path = (
+                UPLOAD_DIR /
+                cover_name
+            )
+
+
+            with cover_path.open("wb") as buffer:
+
+                shutil.copyfileobj(
+                    cover.file,
+                    buffer
+                )
+
+
+            cover_url = (
+                "/uploads/" +
+                cover_name
+            )
+
+
+    # =====================================================
+    # PODCAST DATA
+    # =====================================================
+
+    podcast = {
+
+        "id": secrets.token_hex(12),
+
+        "title": title.strip(),
+
+        "description": description.strip(),
+
+        "category": category,
+
+        "date": date,
+
+        "audio": "/uploads/" + audio_name,
+
+        "cover": cover_url
+
+    }
+
+
+    podcasts = load_podcasts()
+
+    podcasts.insert(
+        0,
+        podcast
+    )
+
+    save_podcasts(
+        podcasts
+    )
+
+
+    return {
+
+        "success": True,
+
+        "message":
+            "پادکست با موفقیت منتشر شد 🎙️",
+
+        "podcast":
+            podcast
+
+    }
+
+
+# =========================================================
+# DELETE PODCAST
+# =========================================================
+
+@app.delete("/api/admin/podcasts/{podcast_id}")
+def delete_podcast(
+
+    podcast_id: str,
+
+    token: str
+
+):
+
+    check_admin(token)
+
+
+    podcasts = load_podcasts()
+
+
+    podcast = next(
+        (
+            p for p in podcasts
+            if p.get("id") == podcast_id
+        ),
+        None
+    )
+
+
+    if not podcast:
+
+        raise HTTPException(
+            status_code=404,
+            detail="پادکست پیدا نشد"
+        )
+
+
+    # حذف فایل صوتی
+    audio_url = podcast.get(
+        "audio",
+        ""
+    )
+
+
+    if audio_url.startswith("/uploads/"):
+
+        audio_path = (
+            UPLOAD_DIR /
+            Path(audio_url).name
+        )
+
+
+        if audio_path.exists():
+
+            audio_path.unlink()
+
+
+    # حذف کاور
+    cover_url = podcast.get(
+        "cover",
+        ""
+    )
+
+
+    if cover_url.startswith("/uploads/"):
+
+        cover_path = (
+            UPLOAD_DIR /
+            Path(cover_url).name
+        )
+
+
+        if cover_path.exists():
+
+            cover_path.unlink()
+
+
+    # حذف از دیتابیس
+    podcasts = [
+
+        p for p in podcasts
+
+        if p.get("id") != podcast_id
+
+    ]
+
+
+    save_podcasts(
+        podcasts
+    )
+
+
+    return {
+
+        "success": True,
+
+        "message":
+            "پادکست حذف شد 🗑️"
+
+    }
